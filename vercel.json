@@ -1,5 +1,5 @@
 {
-    "rewrites": [{ "source": "/:path*", "destination": "/todolist.html" }],
+    "rewrites": [{ "source": "/:path*", "destination": "/" }],
     "version": 2,
     "routes": [
       { "handle": "filesystem" },
