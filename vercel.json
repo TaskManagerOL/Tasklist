@@ -1,8 +1,8 @@
 {
+    "rewrites": [{ "source": "/:path*", "destination": "/todolist.html" }],
     "version": 2,
     "routes": [
       { "handle": "filesystem" },
-      { "src": "/(.*)", "status": 404, "destination": "/404.html" },
-      { "source": "/:path*", "destination": "/index.html" }
+      { "src": "/(.*)", "status": 404, "dest": "/404.html" }
     ]
 }
