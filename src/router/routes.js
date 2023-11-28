@@ -13,7 +13,7 @@ const routes = [
             {
                 path: '/todolist',
                 name: 'List',
-                component: () => import('../components/List/ToDoList/KillTodo.vue'),
+                component: () => import('../components/List/Todolist/KillTodo.vue'),
             },
             {
                 path: '/daytodo',
