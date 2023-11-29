@@ -1,6 +1,9 @@
 {
-    "version": 2,
-    "redirects": [
-    { "source": "/404",  "statusCode": 404 }
-  ]
+    "routes": [
+        {
+            "src": "/[^.]+",
+            "dest": "/",
+            "status": 200
+        }
+    ]
 }
