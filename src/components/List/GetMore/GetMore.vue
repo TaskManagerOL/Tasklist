@@ -52,9 +52,28 @@
             </div>
         </div>
         <div class="my-[10px] mx-[10px] relative flex flex-col items-start">
+                <div class="flex items-end">
+                    <p class="text-[22px] flex">1.0.1</p>
+                    <p class="text-[10px] flex">[2023.11.30]</p>
+                </div>
+                <div class="ml-[2rem] flex flex-col items-start">
+                    <div class="text-left">
+                        <p>优化:</p>
+                        <div class="ml-[2rem]">
+                            <p>部署方式优化</p>
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <p>更新:</p>
+                        <div class="ml-[2rem]">
+                            <p>添加F12彩蛋</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="my-[10px] mx-[10px] relative flex flex-col items-start">
             <p class="text-[22px] flex">版本更新预计项目</p>
             <div class="ml-[2rem] flex flex-col items-start">
-                <p class="text-[20px] flex">0.2.1</p>
                 <div class="ml-[2rem] flex flex-col items-start">
                     <p>修复bug:每日任务在某种情况下会划掉（好像是任务清单划掉就会）</p>
                     <p>更新:科协用户签到签退功能</p>
