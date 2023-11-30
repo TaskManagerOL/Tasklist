@@ -322,7 +322,7 @@ const SignIn = () => {
     user-select: none;
     -webkit-user-drag: none;
     transition: all .5s ease-in-out;
-    background-image: url(/图标.png);
+    background-image: url(/tasklist.png);
     display: block;
     background-repeat: no-repeat;
     background-position: center center;

@@ -347,7 +347,7 @@ watch(wave, (newValue, oldValue) => {
           </ul>
           <div class="absolute bottom-[5px] left-[200px] text-[--theme-sidebar-text-color]">
             <!-- 版本号 -->
-            <p @click="test()">0.1.1</p>
+            <p @click="test()">1.0.2</p>
           </div>
         </div>
         <clock v-if="isPofClock%2" class="clock"></clock>
