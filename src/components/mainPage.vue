@@ -4,6 +4,7 @@ import loading from './Special/loading.vue'
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'; 
 import { useRoute, useRouter } from 'vue-router'
 import { events } from '../../EventBus/EventBus';
+import updateData from './List/GetMore/version';
 //写个F12小彩蛋吧
 console.log(String.raw`
  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -90,19 +91,81 @@ const signuptime = ref(Time(NowTime, Signintime))
 
 //以下用于记录按钮变化 可以不存入loctstroge和数据库
 const sidebarstyle = ref("") 
-const topstyle = ref({ color: "#969ba7" })
-const clockstyle = ref({ color: "#969ba7" })
-let isPofTop = 0;
-let isPofClock = 0;
-
-const Top = () => {
-  topstyle.value.color = ++isPofTop % 2 ? "#1296db" : "#969ba7";
-  sidebarstyle.value = isPofTop % 2 ? { width: "250px", opacity: 1, visibility: "visible" } : "";
+const main = ref()
+const iconstyle = reactive([{ color: "#969ba7", isP:0 }, { color: "#969ba7", isP: 0 }, { color: "#969ba7", isP: 0 }, { color: "#969ba7", isP: 0 }])
+const iconPoint = (val) => {
+  switch (val) {
+    case "top":
+      iconstyle[0].color = ++iconstyle[0].isP % 2 ? "#1296db" : "#969ba7";
+      sidebarstyle.value = iconstyle[0].isP % 2 ? { width: "250px", opacity: 1, visibility: "visible" } : "";
+      break;
+    case "clock":
+      iconstyle[1].color = ++iconstyle[1].isP % 2 ? "#1296db" : "#969ba7";
+      break;
+    case "signkexie":
+      iconstyle[2].color = "#1296db";
+      setTimeout(() => {
+        iconstyle[2].color = "#969ba7";
+      }, 100);
+      fetch("/api/record/online/" + DataClass.time.studyID, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(res => res.json()).then(
+          res => {
+            if (res.code != 0)
+              alert("不好意思，出现未知错误XP")
+            else{
+              if (res.data.status) {
+                fetch("/api/user/signOut", {
+                  method: "POST",
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    userId: DataClass.time.studyID
+                  })
+                }).then(res => res.json()).then(res => alert(res.data.userName + "您好，准备上班了吗？今天还有" + DataClass.tableData.length + "个任务未完成，还不能休息哦~"))
+              } else {
+                fetch("/api/user/signIn", {
+                  method: "POST",
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    userId: DataClass.time.studyID
+                  })
+                }).then(res => res.json()).then(res => {
+                  if (res.code == -205)
+                    alert("哎呀别操作太快，要跟不上了QAQ")
+                  else if (res.code != 0 && res.code != -205)
+                    alert("不好意思，出现未知错误XP")
+                  else
+                    alert(res.data.userName + "辛苦啦✨，本次工作" + res.data.accumulatedTime + "小时，本周已工作" + res.data.totalTime + "小时，请注意休息噢~")
+                })
+              }
+            }
+          })
+      break;
+    case "f11":
+      iconstyle[3].color = ++iconstyle[3].isP % 2 ? "#1296db" : "#969ba7";
+      if (iconstyle[3].isP % 2)
+        main.value.requestFullscreen()
+      else
+        document.exitFullscreen();
+      break;
+    default:
+      console.error("ICON NOT FOUND!");
+      break;
+  }
 }
-const Clock = () => {
-  clockstyle.value.color = ++isPofClock % 2 ? "#1296db" : "#969ba7";
-}
-
+//全屏除点击外状态判断
+addEventListener("fullscreenchange", () => { 
+  iconstyle[3].isP = document.fullscreenElement ? 1 : 0;
+  iconstyle[3].color = iconstyle[3].isP % 2 ? "#1296db" : "#969ba7";
+});
 //以下用于绑定齿轮和sidebar
 const Overstyle = ref("")
 const Over = () => {
@@ -113,7 +176,7 @@ const Over = () => {
 }
 
 const Leave = () => {
-  if (isPofTop % 2 == 0) {
+  if (iconstyle[0].isP % 2 == 0) {
     Overstyle.value = {
       transform: "rotate(0deg)",
       transition: "all 1.5s ease-in-out"
@@ -181,12 +244,11 @@ const newTheme = (val) => {
 newTheme(DataClass.time.theme)
 
 //全局bus事件传递主题变化 给diy
+const version = ref(undefined);
 const emit = () => {
   events.on('theme', (val) => { newTheme(val) })
 }
-
 emit()
-
 
 //波浪主题函数
 
@@ -314,7 +376,7 @@ watch(wave, (newValue, oldValue) => {
 </script>
 
 <template>
-  <div class="main ">
+  <div class="main" ref="main">
       <div v-if="canvasShow==2||canvasShow==3">
         <canvas class="absolute left-[0] z-[0]" ref="wave" :width="canvasWidth" :height="canvasHeight"></canvas>
       </div>
@@ -323,15 +385,19 @@ watch(wave, (newValue, oldValue) => {
           <img src="../assets/settings.png">
         </div>
         <div @mouseover="Over" @mouseleave="Leave" id="settingsidebar" :style="sidebarstyle">
-          <div @click="Top" id="settingtop">
-            <span :style="topstyle" class="iconfont">&#xe9ba;</span>
-          </div>
-          <div @click="Clock" id="settingclock">
-            <span :style="clockstyle" class="iconfont">&#xe630;</span>
-          </div>
-          <div id="settingshow">
-            <span></span>
-            <span></span>
+          <div class="flex w-2/3 h-[5rem] mt-[1rem] ml-[.5rem] items-center justify-center">
+            <div @click="iconPoint('top')" class="px-[.2rem]">
+              <span :style="iconstyle[0]" class="iconfont ">&#xe876;</span>
+            </div>
+            <div @click="iconPoint('clock')" class="px-[.2rem]">
+              <span :style="iconstyle[1]" class="iconfont">&#xe630;</span>
+            </div>
+            <div @click="iconPoint('signkexie')" class="px-[.2rem]" title="一键签到签退:科协人员可以进入右下角版号页面输入学号">
+              <span :style="iconstyle[2]" class="iconfont">&#xe65d;</span>
+            </div>
+            <div @click="iconPoint('f11')" class="px-[.2rem]">
+              <span :style="iconstyle[3]" class="iconfont">&#xe758;</span>
+            </div>
           </div>
           <ul>
             <li>
@@ -345,12 +411,12 @@ watch(wave, (newValue, oldValue) => {
             <li @click="routerlink('MainList')">📜杂项安排</li>
             <li @click="routerlink('DIY')">✨风格选择</li>
           </ul>
-          <div class="absolute bottom-[5px] left-[200px] text-[--theme-sidebar-text-color]">
+          <div class="absolute bottom-[5px] left-[200px] text-[--theme-sidebar-text-color] cursor-pointer">
             <!-- 版本号 -->
-            <p @click="test()">1.0.2</p>
+            <p @click="test()">{{ updateData[0].version }}</p>
           </div>
         </div>
-        <clock v-if="isPofClock%2" class="clock"></clock>
+        <clock v-if="iconstyle[1].isP%2" class="clock"></clock>
       </div>
       <router-view></router-view>
       <loading></loading>
@@ -373,19 +439,26 @@ watch(wave, (newValue, oldValue) => {
 
 @font-face {
   font-family: 'iconfont';  /* Project id 4008251 */
-  src: url('//at.alicdn.com/t/c/font_4008251_5aw8epeyul3.woff2?t=1689213026781') format('woff2'),
-       url('//at.alicdn.com/t/c/font_4008251_5aw8epeyul3.woff?t=1689213026781') format('woff'),
-       url('//at.alicdn.com/t/c/font_4008251_5aw8epeyul3.ttf?t=1689213026781') format('truetype');
+  src: url('//at.alicdn.com/t/c/font_4008251_qo4v93ohsh.woff2?t=1701401677051') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4008251_qo4v93ohsh.woff?t=1701401677051') format('woff'),
+       url('//at.alicdn.com/t/c/font_4008251_qo4v93ohsh.ttf?t=1701401677051') format('truetype');
 }
 
   .iconfont{
     font-family:"iconfont" !important;
-    font-size:16px;
+    font-size:24px;
     font-style:normal;
     -webkit-font-smoothing: antialiased;
     -webkit-text-stroke-width: 0.2px;
     -moz-osx-font-smoothing: grayscale;
     text-decoration: none;
+    font-size: 24px;
+    padding-left: 6px;
+    line-height: 36px;
+    color:  var(--theme-sidebar-text-color);
+    user-select: none;
+    cursor: pointer;
+    caret-color: var(--hide-cursor);
 }
 
   .clock {
@@ -445,82 +518,6 @@ watch(wave, (newValue, oldValue) => {
     opacity: 1;
     visibility: visible;
     transition: all 0.5s ease-in-out;
-  }
-
-  #settingtop {
-    position: absolute;
-    width: 36px;
-    height: 36px;
-    left: 30px;
-    top: 40px;
-    z-index: 9;
-  }
-
-  #settingclock {
-    position: absolute;
-    width: 36px;
-    height: 36px;
-    left: 69px;
-    top: 39px;
-    z-index: 9;
-  }
-
-  #settingtop:hover~#settingshow :nth-child(1) {
-    width: 36px;
-    height: 36px;
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
-  }
-
-  #settingclock:hover~#settingshow :nth-child(2) {
-    width: 36px;
-    height: 36px;
-    opacity: 1;
-    transition: all 0.5s ease-in-out;
-  }
-
-  #settingshow {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 90px;
-    height: 36px;
-    left: 32px;
-    top: 40px;
-    border-radius: 50%;
-  }
-
-  #settingshow span{
-    width: 24px;
-    height: 24px;
-    background-color: var(--theme-sidebar-text-color);
-    border-radius: 50%;
-    margin-right: 15px;
-    opacity: 0;
-    transition: all 0.3s ease-in-out;
-    caret-color: var(--hide-cursor);
-  }
-
-  #settingtop .iconfont{
-    font-size: 24px;
-    padding-left: 6px;
-    line-height: 36px;
-    color:  var(--theme-sidebar-text-color);
-    user-select: none;
-    cursor: pointer;
-    caret-color: var(--hide-cursor);
-  }
-
-  #settingclock .iconfont{
-    font-size: 24px;
-    padding-left: 6px;
-    line-height: 36px;
-    color:  var(--theme-sidebar-text-color);
-    user-select: none;
-    cursor: pointer;
-    caret-color: var(--hide-cursor);
   }
 
   #setting ul {

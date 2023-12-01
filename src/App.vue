@@ -19,6 +19,7 @@ let DataSaver = reactive({
         month: 0,
         year: 0,
         userID: "登录/注册",
+        studyID: "",
         primeID: "",
         theme: 0,
         bindMainSub: false,
