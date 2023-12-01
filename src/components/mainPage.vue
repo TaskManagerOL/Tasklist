@@ -127,7 +127,7 @@ const iconPoint = (val) => {
                   body: JSON.stringify({
                     userId: DataClass.time.studyID
                   })
-                }).then(res => res.json()).then(res => alert(res.data.userName + "您好，准备上班了吗？今天还有" + DataClass.tableData.length + "个任务未完成，还不能休息哦~"))
+                }).then(res => res.json()).then(res => alert(res.data.userName + "辛苦啦✨，本次工作" + res.data.accumulatedTime + "小时，本周已工作" + res.data.totalTime + "小时，请注意休息噢~"))
               } else {
                 fetch("/api/user/signIn", {
                   method: "POST",
@@ -143,7 +143,7 @@ const iconPoint = (val) => {
                   else if (res.code != 0 && res.code != -205)
                     alert("不好意思，出现未知错误XP")
                   else
-                    alert(res.data.userName + "辛苦啦✨，本次工作" + res.data.accumulatedTime + "小时，本周已工作" + res.data.totalTime + "小时，请注意休息噢~")
+                    alert(res.data.userName + "您好，准备上班了吗？今天还有" + DataClass.tableData.length + "个任务未完成，还不能休息哦~")
                 })
               }
             }

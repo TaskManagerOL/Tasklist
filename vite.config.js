@@ -6,7 +6,6 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     host: "localhost",
-    port: 8080,
     proxy: {
     '/api': {
         target: 'https://at.kexie.space/api',

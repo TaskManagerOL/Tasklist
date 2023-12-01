@@ -21,10 +21,8 @@ const sign = () => {
             <p class="text-[22px] flex">版本更新预计项目</p>
             <div class="ml-[2rem] flex flex-col items-start">
                 <div class="ml-[2rem] flex flex-col items-start">
-                    <p>更新:科协用户签到签退功能</p>
                     <p>更新:分类:作业</p>
                     <p>更新:自定义:添加词汇自动适配分类。</p>
-                    <p>更新:sidebar加上全屏</p>
                     <p>更新:移动端适配问题</p>
                     <p>更新:任务清单页面的任务查找</p>
                     <p>优化:任务清单页面:以及右侧sublist的自由排序</p>
