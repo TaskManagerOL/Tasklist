@@ -228,8 +228,8 @@ const SignIn = () => {
                         <form class="flex flex-col" action="">
                             <div class="flex items-center relative">
                                 <div class="flex justify-between rounded-t-xl" style="width:450px;height:50px;border:1px solid #adadad;background-color:rgba(224, 224, 224,.8)">
-                                    <label for="账号" class="py-3 px-6" style="width:120px">手机</label>
-                                    <input class="h-full w-full focus:outline-0"  v-model="tel" @focus="telpoint=1" @keyup="testNow()" style="width: 300px;background-color:rgba(224, 224, 224,0)" name="号码" type="text" placeholder="请输入手机号">
+                                    <label for="账号" class="py-3 px-6" style="width:120px">邮箱</label>
+                                    <input class="h-full w-full focus:outline-0"  v-model="tel" @focus="telpoint=1" @keyup="testNow()" style="width: 300px;background-color:rgba(224, 224, 224,0)" name="号码" type="text" placeholder="请输入邮箱">
                                     <div class="py-3 px-4 cursor-pointer" style="width:150px;color:#4698db;" @click="telpoint=1,Numpoint=0,testNow()">获取验证码</div>
                                 </div> 
                                 <el-tooltip content="请输入正确的电话号码哦" placement="bottom">

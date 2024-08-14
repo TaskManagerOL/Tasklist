@@ -2,8 +2,8 @@ import { createApp } from 'vue'
 import './style.css'
 import ElementPlus from 'element-plus'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-import vuetyped from 'vue3typed' //打字机效果
 import 'element-plus/dist/index.css'
+import vuetyped from 'vue3typed' //打字机效果
 import App from './App.vue'
 import router from './router/index.js'
 import axios from 'axios'

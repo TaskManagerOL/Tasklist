@@ -381,7 +381,7 @@ watch(wave, (newValue, oldValue) => {
         <canvas class="absolute left-[0] z-[0]" ref="wave" :width="canvasWidth" :height="canvasHeight"></canvas>
       </div>
       <div id="setting">
-        <div @mouseover="Over" :style="Overstyle" id="settingico" >
+        <div @mouseover="Over" :style="Overstyle" id="settingico">
           <img src="../assets/settings.png">
         </div>
         <div @mouseover="Over" @mouseleave="Leave" id="settingsidebar" :style="sidebarstyle">
@@ -411,6 +411,9 @@ watch(wave, (newValue, oldValue) => {
             <li @click="routerlink('MainList')">📜杂项安排</li>
             <li @click="routerlink('DIY')">✨风格选择</li>
           </ul>
+          <div class="absolute bottom-[5px] left-[10px] text-[--theme-sidebar-text-color] cursor-pointer">
+            <a href="https://beian.miit.gov.cn/" target="_blank" class="text-[--theme-sidebar-text-color]">桂ICP备2024039870号</a>
+          </div>
           <div class="absolute bottom-[5px] left-[200px] text-[--theme-sidebar-text-color] cursor-pointer">
             <!-- 版本号 -->
             <p @click="test()">{{ updateData[0].version }}</p>
