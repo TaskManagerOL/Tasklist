@@ -1,10 +1,14 @@
 <script setup>
 import clock from './views/clock.vue'
 import loading from './Special/loading.vue'
+import signin from './Sign/SignIn.vue'
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'; 
 import { useRoute, useRouter } from 'vue-router'
 import { events } from '../../EventBus/EventBus';
+
+import { signStore } from '/public/stores/sign'
 import updateData from './List/GetMore/version';
+
 //写个F12小彩蛋吧
 console.log(String.raw`
  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
@@ -373,56 +377,60 @@ watch(wave, (newValue, oldValue) => {
 })
 
 
+const signState = signStore()
 </script>
 
 <template>
-  <div class="main" ref="main">
-      <div v-if="canvasShow==2||canvasShow==3">
-        <canvas class="absolute left-[0] z-[0]" ref="wave" :width="canvasWidth" :height="canvasHeight"></canvas>
-      </div>
-      <div id="setting">
-        <div @mouseover="Over" :style="Overstyle" id="settingico">
-          <img src="../assets/settings.png">
+  <div>
+    <signin v-if="signState.sign==1"></signin>
+    <div class="main" ref="main">
+        <div v-if="canvasShow==2||canvasShow==3">
+          <canvas class="absolute left-[0] z-[0]" ref="wave" :width="canvasWidth" :height="canvasHeight"></canvas>
         </div>
-        <div @mouseover="Over" @mouseleave="Leave" id="settingsidebar" :style="sidebarstyle">
-          <div class="flex w-2/3 h-[5rem] mt-[1rem] ml-[.5rem] items-center justify-center">
-            <div @click="iconPoint('top')" class="px-[.2rem]">
-              <span :style="iconstyle[0]" class="iconfont ">&#xe876;</span>
+        <div id="setting">
+          <div @mouseover="Over" :style="Overstyle" id="settingico">
+            <img src="../assets/settings.png">
+          </div>
+          <div @mouseover="Over" @mouseleave="Leave" id="settingsidebar" :style="sidebarstyle">
+            <div class="flex w-2/3 h-[5rem] mt-[1rem] ml-[.5rem] items-center justify-center">
+              <div @click="iconPoint('top')" class="px-[.2rem]">
+                <span :style="iconstyle[0]" class="iconfont ">&#xe876;</span>
+              </div>
+              <div @click="iconPoint('clock')" class="px-[.2rem]">
+                <span :style="iconstyle[1]" class="iconfont">&#xe630;</span>
+              </div>
+              <div @click="iconPoint('signkexie')" class="px-[.2rem]" title="一键签到签退:科协人员可以进入右下角版号页面输入学号">
+                <span :style="iconstyle[2]" class="iconfont">&#xe65d;</span>
+              </div>
+              <div @click="iconPoint('f11')" class="px-[.2rem]">
+                <span :style="iconstyle[3]" class="iconfont">&#xe758;</span>
+              </div>
             </div>
-            <div @click="iconPoint('clock')" class="px-[.2rem]">
-              <span :style="iconstyle[1]" class="iconfont">&#xe630;</span>
+            <ul>
+              <li>
+                <div class="flex justify-center"><img src="../assets/Profile.jpg" alt="头像" id="Profile"></div>
+                <div class="signin" @click="signState.sign = 1">{{ UserID }}</div>
+                <div style="cursor: auto;">已注册{{ signuptime }}天</div>
+              </li>
+              <li @click="routerlink('List')">⏱️任务清单</li>
+              <li @click="routerlink('DayList')">🧾每日任务</li>
+              <li @click="routerlink('TaskCalendar')">📖任务日历</li>
+              <li @click="routerlink('MainList')">📜杂项安排</li>
+              <li @click="routerlink('DIY')">✨风格选择</li>
+            </ul>
+            <div class="absolute bottom-[5px] left-[10px] text-[--theme-sidebar-text-color] cursor-pointer">
+              <a href="https://beian.miit.gov.cn/" target="_blank" class="text-[--theme-sidebar-text-color]">桂ICP备2024039870号</a>
             </div>
-            <div @click="iconPoint('signkexie')" class="px-[.2rem]" title="一键签到签退:科协人员可以进入右下角版号页面输入学号">
-              <span :style="iconstyle[2]" class="iconfont">&#xe65d;</span>
-            </div>
-            <div @click="iconPoint('f11')" class="px-[.2rem]">
-              <span :style="iconstyle[3]" class="iconfont">&#xe758;</span>
+            <div class="absolute bottom-[5px] left-[200px] text-[--theme-sidebar-text-color] cursor-pointer">
+              <!-- 版本号 -->
+              <p @click="test()">{{ updateData[0].version }}</p>
             </div>
           </div>
-          <ul>
-            <li>
-              <div class="flex justify-center"><img src="../assets/Profile.jpg" alt="头像" id="Profile"></div>
-              <div class="signin" @click="routerlink('SignIn')">{{ UserID }}</div>
-              <div style="cursor: auto;">已注册{{ signuptime }}天</div>
-            </li>
-            <li @click="routerlink('List')">⏱️任务清单</li>
-            <li @click="routerlink('DayList')">🧾每日任务</li>
-            <li @click="routerlink('TaskCalendar')">📖任务日历</li>
-            <li @click="routerlink('MainList')">📜杂项安排</li>
-            <li @click="routerlink('DIY')">✨风格选择</li>
-          </ul>
-          <div class="absolute bottom-[5px] left-[10px] text-[--theme-sidebar-text-color] cursor-pointer">
-            <a href="https://beian.miit.gov.cn/" target="_blank" class="text-[--theme-sidebar-text-color]">桂ICP备2024039870号</a>
-          </div>
-          <div class="absolute bottom-[5px] left-[200px] text-[--theme-sidebar-text-color] cursor-pointer">
-            <!-- 版本号 -->
-            <p @click="test()">{{ updateData[0].version }}</p>
-          </div>
+          <clock v-if="iconstyle[1].isP%2" class="clock"></clock>
         </div>
-        <clock v-if="iconstyle[1].isP%2" class="clock"></clock>
-      </div>
-      <router-view></router-view>
-      <loading></loading>
+        <router-view></router-view>
+        <!-- <loading></loading> -->
+    </div>
   </div>
 </template>
 
@@ -476,6 +484,7 @@ watch(wave, (newValue, oldValue) => {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    
   }
 
   #settingico{
@@ -490,6 +499,7 @@ watch(wave, (newValue, oldValue) => {
 
   #settingsidebar {
     position: absolute;
+    top: 0;
     right: 0;
     width: 80px;
     height: 100%;

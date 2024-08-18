@@ -41,11 +41,13 @@ const routes = [
                 component: () => import('../components/List/GetMore/GetMore.vue'),
             }
         ]
-    },{
-        path: '/signin',
-        name: 'SignIn',
-        component: () => import('../components/Sign/SignIn.vue'),
-    }, {
+    },
+    // {
+    //     path: '/signin',
+    //     name: 'SignIn',
+    //     component: () => import('../components/Sign/SignIn.vue'),
+    // },
+    {
         path: '/signin/qqcode',
         name: 'QQCode',
         component: () => import('../components/Sign/code_qq.vue'),

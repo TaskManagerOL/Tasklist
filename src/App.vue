@@ -1,12 +1,12 @@
 <template>
   <router-view></router-view>
+  
 </template>
 
 <script setup>
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'; 
 import { useRoute, useRouter } from 'vue-router'
 
-import typed from 'vue3typed';
 const $route = useRoute();
 const $router = useRouter()
 const routerlink = (val) => {
