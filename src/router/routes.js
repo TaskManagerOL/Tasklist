@@ -42,11 +42,11 @@ const routes = [
             }
         ]
     },
-    // {
-    //     path: '/signin',
-    //     name: 'SignIn',
-    //     component: () => import('../components/Sign/SignIn.vue'),
-    // },
+    {
+        path: '/signin/agreement',
+        name: 'agreement',
+        component: () => import('../components/Sign/agreement.vue'),
+    },
     {
         path: '/signin/qqcode',
         name: 'QQCode',

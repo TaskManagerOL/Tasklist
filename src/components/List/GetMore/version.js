@@ -34,6 +34,12 @@ const updateData = [{
     bug: ["scope造成边栏错位问题"],
     optimize: ["登录注册页面路由优化","注册登录页面结构优化"],
     update: ["注册逻辑完善部分","注册登录页面svg制作"]
+}, {
+    version: "1.1.1",
+    date: "2024.08.19",
+    bug: [],
+    optimize: [],
+    update: ["注册登录页面视差滚动制作","隐私政策"]
 }]
 updateData.reverse();
 export default updateData
