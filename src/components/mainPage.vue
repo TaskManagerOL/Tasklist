@@ -92,7 +92,7 @@ const Time = (val) => {
 }
 const signuptime = ref(Time(signDay.value))
 
-const avatar = ref('../../src/assets/Profile.jpg')
+const avatar = ref('')
 const UserID = ref()
 watch(() => signState.sign, () => {
   UserID.value = signState.data.account
@@ -416,7 +416,7 @@ watch(wave, (newValue, oldValue) => {
             <ul>
               <li>
                 <div class="flex justify-center" >
-                  <img class="w-[50px] h-[50px] rounded-full" :src="avatar" alt="头像">
+                  <img class="w-[50px] h-[50px] rounded-full" :src="avatar||'../../src/assets/Profile.jpg'" alt="头像">
                 </div>
                 <div class="signin" @click="signState.sign = 1">{{ UserID||"登录/注册" }}</div>
                 <div style="cursor: auto;">已注册{{ signuptime }}天</div>
