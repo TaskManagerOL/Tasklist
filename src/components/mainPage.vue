@@ -67,15 +67,14 @@ const routerlink = (val) => {
 const reload = ref(0)
 const canvasShow = ref(0)
 let DataClass = JSON.parse(localStorage.getItem("mainData"));
-//偷个鸡 交流会之后删掉
 setInterval(() => {
   DataClass = JSON.parse(localStorage.getItem("mainData"));
-
   canvasShow.value = DataClass.time.theme;
 })
 
+
 //该变量用于记录用户ID 存入数据库 且很重要
-const UserID = DataClass.time.userID
+const signState = signStore()
 const primeID = DataClass.time.primeID
 const test = () => {
   if (primeID != 8830300545) {
@@ -85,12 +84,21 @@ const test = () => {
   }
 }
 //该变量用于记录签到时间 存入数据库
-const Signintime = new Date("04 09 2023").getTime();
-const NowTime = new Date().getTime();
-const Time = (NowTime, Signintime) => {
+const signDay = ref("2023-04-09")
+const Time = (val) => {
+  let Signintime = new Date(val).getTime();
+  let NowTime = new Date().getTime();
   return Math.floor((NowTime - Signintime)/(24 * 3600 * 1000))
 }
-const signuptime = ref(Time(NowTime, Signintime))
+const signuptime = ref(Time(signDay.value))
+
+const avatar = ref('../../src/assets/Profile.jpg')
+const UserID = ref()
+watch(() => signState.sign, () => {
+  UserID.value = signState.data.account
+  signuptime.value = Time(signState.data.day)
+})
+
 
 
 //以下用于记录按钮变化 可以不存入loctstroge和数据库
@@ -377,7 +385,6 @@ watch(wave, (newValue, oldValue) => {
 })
 
 
-const signState = signStore()
 </script>
 
 <template>
@@ -408,8 +415,10 @@ const signState = signStore()
             </div>
             <ul>
               <li>
-                <div class="flex justify-center"><img src="../assets/Profile.jpg" alt="头像" id="Profile"></div>
-                <div class="signin" @click="signState.sign = 1">{{ UserID }}</div>
+                <div class="flex justify-center" >
+                  <img class="w-[50px] h-[50px] rounded-full" :src="avatar" alt="头像">
+                </div>
+                <div class="signin" @click="signState.sign = 1">{{ UserID||"登录/注册" }}</div>
                 <div style="cursor: auto;">已注册{{ signuptime }}天</div>
               </li>
               <li @click="routerlink('List')">⏱️任务清单</li>
@@ -557,11 +566,7 @@ const signState = signStore()
     color: #686b74;
   }
 
-  #Profile {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-  }
+
 
   #setting ul :nth-child(1){
     font-size: 18px;

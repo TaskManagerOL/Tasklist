@@ -5,12 +5,6 @@
             "dest": "https://tasklistol.vercel.app/",
             "status": 200
         }
-    ],
-    "rewrites": [
-        {
-            "source": "/api/:path*",
-            "destination": "https://api.izxl.asia/:path*"
-        },
-        { "source": "/:path*", "destination": "/index.html" }
     ]
+    
 }

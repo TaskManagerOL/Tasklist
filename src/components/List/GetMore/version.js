@@ -40,6 +40,12 @@ const updateData = [{
     bug: [],
     optimize: [],
     update: ["注册登录页面视差滚动制作","隐私政策"]
+}, {
+    version: "1.1.2",
+    date: "2024.08.20",
+    bug: [],
+    optimize: [],
+    update: ["登录逻辑完善部分"]
 }]
 updateData.reverse();
 export default updateData

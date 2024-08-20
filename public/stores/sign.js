@@ -1,6 +1,13 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref,reactive } from 'vue'
 export const signStore = defineStore('signStore', () => {
   const sign = ref(0)
-  return { sign }
+  const data = reactive({
+    id: "",
+    email: "",
+    account: "",
+    day: "",
+    avatar: ""
+  })
+  return { sign,data }
 })
