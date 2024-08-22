@@ -9,5 +9,6 @@ export const signStore = defineStore('signStore', () => {
     day: "",
     avatar: ""
   })
-  return { sign,data }
+  const isLog = ref(0)
+  return { sign,data,isLog }
 })

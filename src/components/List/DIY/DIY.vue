@@ -2,7 +2,16 @@
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch   } from 'vue'; 
 import { events } from '../../../../EventBus/EventBus';
 
+import { themeStore } from '/public/stores/theme';// 主题控制
+const themeState = themeStore()
+
 let DataClass = JSON.parse(localStorage.getItem("mainData"));
+let logState = sessionStorage.getItem("LogState");
+
+console.log(logState);
+
+
+
 //写个变量存储选的主题
 const themeChoose = ref(0)
 

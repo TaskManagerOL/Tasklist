@@ -1,7 +1,9 @@
 <script setup>
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'; 
 import { useRoute, useRouter } from 'vue-router'
+
 import { signStore } from '/public/stores/sign'
+const signState = signStore()
 
 const $route = useRoute();
 const $router = useRouter()
@@ -92,6 +94,8 @@ const LogIn = (time) => {
         }).then(res => res.json()).then(res => {
             if (res.code == 0) {
                 signState.data = res.info
+                sessionStorage.setItem('LogState',1)
+                signState.isLog = 1
                 landword.value = "登录成功🥰"
                 if (time) {
                     signState.sign = 0
@@ -106,7 +110,7 @@ const LogIn = (time) => {
             }
         }, error => {
             console.log('错误', error.message)
-        }) 
+        })
     }
 }
 
@@ -149,7 +153,7 @@ const SignIn = () => {
 
 
 
-const signState = signStore()
+
 
 const wavemove = reactive(['transform: translateX(0)','transform: translateX(0)','transform: translateX(0)','transform: translateX(0)','transform: translateX(0)'])
 const mousemove = (e) => {

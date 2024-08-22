@@ -1,7 +1,6 @@
 <script setup>
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue';
-import { events } from '../../../../EventBus/EventBus';
-import updateData from './version'
+import updateData from '../../../assets/version'
 
 let DataClass = JSON.parse(localStorage.getItem("mainData"));
 const inputID = ref(DataClass.time.studyID)
@@ -13,7 +12,7 @@ const sign = () => {
 
 <template>
     <div class="text-[--theme-text-major-color] bg-[--theme-color] w-full flex flex-col h-full overflow-auto">
-        <div class="flex">发现问题请联系QQ:1975771886 十分感谢</div>
+        <div class="flex">发现问题请email或issue 十分感谢</div>
         <div class="flex">
             <input v-model="inputID" @blur="sign()" type="num" placeholder="科协人员在此处输入学号（输入一次即可）" class="bg-[#000000] text-[#ffffff] w-[20rem]">
         </div>

@@ -6,7 +6,6 @@
 </template>
 
 <script setup>
-//想法是写一个时钟
 import { reactive, watch } from 'vue';
 
 const time = reactive({

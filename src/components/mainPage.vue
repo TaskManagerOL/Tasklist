@@ -1,70 +1,24 @@
 <script setup>
-import clock from './views/clock.vue'
-import loading from './Special/loading.vue'
-import signin from './Sign/SignIn.vue'
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'; 
 import { useRoute, useRouter } from 'vue-router'
+
+import clock from './Special/clock.vue'
+import loading from './Special/loading.vue'
+import signin from './Sign/SignIn.vue'
+
 import { events } from '../../EventBus/EventBus';
+import { signStore } from '/public/stores/sign';// 注册路由
+const signState = signStore()
+import updateData from '../assets/version';// 版本号
+import { wave, canvasHeight, canvasWidth } from '../assets/dotcanvas';// 波浪canvas
+import egg from './F12EasterEgg';// 彩蛋
+egg()
 
-import { signStore } from '/public/stores/sign'
-import updateData from './List/GetMore/version';
-
-//写个F12小彩蛋吧
-console.log(String.raw`
- ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
- ▒          /▒\    \                                             _____                    _____             ▒
- ▒         /▒▒▒\    \                                           /\    \                  /\    \            ▒
- ▒          \▒▒▒\    \                                         /▒▒\    \                /▒▒\    \           ▒
- ▒           \▒▒▒\    \              ___________              /▒▒▒▒\    \              /▒▒▒▒\    \          ▒
- ▒            \▒▒▒\    \            /▒▒▒▒▒▒\    \            /▒▒▒▒▒▒\    \            /▒▒▒▒▒▒\____\         ▒
- ▒             \▒▒▒\    \          /▒▒▒▒▒▒▒▒\    \          /▒▒▒/\▒▒▒\    \          /▒▒▒▒▒▒▒/    /         ▒
- ▒              \▒▒▒\    \        /▒▒▒▒▒/\▒▒▒\    \        /▒▒▒/  \▒▒▒\    \        /▒▒▒▒▒▒▒/    /          ▒
- ▒              /▒▒▒▒\    \      /▒▒▒▒▒/__\▒▒▒\    \       \▒▒▒\   \▒▒▒\    \      /▒▒▒▒▒▒▒/    /           ▒
- ▒             /▒▒▒▒▒▒\    \    /▒▒▒▒▒▒\   \▒▒▒\    \    ___\▒▒▒\   \▒▒▒\    \    /▒▒▒▒▒▒▒/    /            ▒
- ▒            /▒▒▒/\▒▒▒\    \  /▒▒▒▒▒▒▒▒\   \▒▒▒\____\  /\   \▒▒▒\   \▒▒▒\    \  /▒▒▒▒▒▒▒/____/_________    ▒
- ▒           /▒▒▒/  \▒▒▒\____\/▒▒▒▒▒/\▒▒▒\  /▒▒▒|    | /▒▒\   \▒▒▒\   \▒▒▒\____\/▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒\____\   ▒
- ▒          /▒▒▒/    \▒▒/    /\▒▒▒▒/  \▒▒▒\/▒▒▒▒|___ | \▒▒▒\   \▒▒▒\   \▒▒/    /\▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒/____/   ▒
- ▒         /▒▒▒/    / \/____/  \▒▒/    \▒▒▒▒▒▒▒▒/    /  \▒▒▒\   \▒▒▒\   \/____/  \▒▒▒▒/|▒▒▒▒▒|    |         ▒
- ▒        /▒▒▒/    /            \/____/ \▒▒▒▒▒▒/    /    \▒▒▒\   \▒▒▒\    \       \▒▒/ |▒▒▒▒▒|    |         ▒
- ▒       /▒▒▒/    /                     /▒▒▒▒▒/    /      \▒▒▒\   \▒▒▒\____\       \/__|▒▒▒▒▒|    |         ▒
- ▒      /▒▒▒/    /                     /▒▒▒▒▒/    /        \▒▒▒\  /▒▒▒/    /           |▒▒▒▒▒|    |         ▒
- ▒     /▒▒▒/    /                     /▒▒▒▒▒/    /          \▒▒▒\/▒▒▒/    /            |▒▒▒▒▒|____|         ▒
- ▒    /▒▒▒/    /                     /▒▒▒▒▒/    /            \▒▒▒▒▒▒/    /             |▒▒▒▒▒|    |         ▒
- ▒   /▒▒▒/    /                     /\▒▒▒▒/    /              \▒▒▒▒/    /              |▒▒▒▒/|   /|         ▒
- ▒  /▒▒▒/    /                     /__\▒▒/    /                \▒▒/    /               |\▒▒/ |  / |         ▒
- ▒ /▒▒▒/    /  _____               \   \/____/                  \/____/                | \/__|_/  |         ▒
- ▒/▒▒▒/    /  /\    \               \  /\    \                  /\    \                | /\  | \  |         ▒
- ▒▒▒▒/    /  /▒▒\    \               \/▒▒\    \                /▒▒\    \               |/▒▒\ |  \ |         ▒
- ▒▒▒/    /  /▒▒▒▒\____\               \▒▒▒\    \              /▒▒▒▒\    \               \▒▒▒\|___\|         ▒
- ▒▒/    /  /▒▒▒▒▒/    /                \▒▒▒\    \            /▒▒▒▒▒▒\    \               \▒▒▒\    \         ▒
- ▒/____/  /▒▒▒▒▒/    /                  \▒▒▒\    \          /▒▒▒/\▒▒▒\    \               \▒▒▒\    \        ▒
- ▒       /▒▒▒▒▒/    /                    \▒▒▒\    \        /▒▒▒/  \▒▒▒\    \               \▒▒▒\    \       ▒
- ▒      /▒▒▒▒▒/    /                     /▒▒▒▒\    \       \▒▒▒\   \▒▒▒\    \              /▒▒▒▒\    \      ▒
- ▒     /▒▒▒▒▒/    /             ____    /▒▒▒▒▒▒\    \    ___\▒▒▒\   \▒▒▒\    \            /▒▒▒▒▒▒\    \     ▒
- ▒    /▒▒▒▒▒/    /             /\   \  /▒▒▒/\▒▒▒\    \  /\   \▒▒▒\   \▒▒▒\    \          /▒▒▒/\▒▒▒\    \    ▒
- ▒   /▒▒▒▒▒▒\    /            /▒▒\   \/▒▒▒/  \▒▒▒\____\/▒▒\   \▒▒▒\   \▒▒▒\____\        /▒▒▒/  \▒▒▒\____\   ▒
- ▒   \▒▒▒▒▒▒▒\    \           \▒▒▒\  /▒▒▒/    \▒▒/    /\▒▒▒\   \▒▒▒\   \▒▒/    /       /▒▒▒/    \▒▒/    /   ▒
- ▒    \▒▒▒▒▒▒▒\    \           \▒▒▒\/▒▒▒/    / \/____/  \▒▒▒\   \▒▒▒\   \/____/       /▒▒▒/    / \/____/    ▒
- ▒     \▒▒▒▒▒▒▒\    \           \▒▒▒▒▒▒/    /            \▒▒▒\   \▒▒▒\    \          /▒▒▒/    /             ▒
- ▒      \▒▒▒▒▒▒▒\    \           \▒▒▒▒/____/              \▒▒▒\   \▒▒▒\____\        /▒▒▒/    /              ▒
- ▒       \▒▒▒▒▒▒▒\    \           \▒▒▒\    \               \▒▒▒\  /▒▒▒/    /        \▒▒/    /               ▒
- ▒        \▒▒▒▒▒▒▒\____\           \▒▒▒\    \               \▒▒▒\/▒▒▒/    /          \/____/  _____         ▒
- ▒         \▒▒▒▒▒▒/    /            \▒▒▒\    \               \▒▒▒▒▒▒/    /                   /\    \        ▒
- ▒          \▒▒▒▒/    /              \▒▒▒\____\               \▒▒▒▒/    /                   /▒▒\    \       ▒
- ▒           \▒▒/    /                \▒▒/    /                \▒▒/    /                    \▒▒▒\    \      ▒
- ▒            \/____/                  \/____/                  \/____/                      \▒▒▒\    \     ▒
- ▒                                                                                            \▒▒▒\    \    ▒
- ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-`
-)
-
-const $route = useRoute();
 const $router = useRouter()
 const routerlink = (val) => {
-    $router.push({name:val});
+  $router.push({name:val});
 }
 
-const reload = ref(0)
 const canvasShow = ref(0)
 let DataClass = JSON.parse(localStorage.getItem("mainData"));
 setInterval(() => {
@@ -72,17 +26,6 @@ setInterval(() => {
   canvasShow.value = DataClass.time.theme;
 })
 
-
-//该变量用于记录用户ID 存入数据库 且很重要
-const signState = signStore()
-const primeID = DataClass.time.primeID
-const test = () => {
-  if (primeID != 8830300545) {
-    routerlink('GetMore')
-  } else {
-    alert("您没有查看版本信息的权限")
-  }
-}
 //该变量用于记录签到时间 存入数据库
 const signDay = ref("2023-04-09")
 const Time = (val) => {
@@ -97,9 +40,8 @@ const UserID = ref()
 watch(() => signState.sign, () => {
   UserID.value = signState.data.account
   signuptime.value = Time(signState.data.day)
+  avatar.value = signState.data.avatar
 })
-
-
 
 //以下用于记录按钮变化 可以不存入loctstroge和数据库
 const sidebarstyle = ref("") 
@@ -256,134 +198,11 @@ const newTheme = (val) => {
 newTheme(DataClass.time.theme)
 
 //全局bus事件传递主题变化 给diy
-const version = ref(undefined);
+
 const emit = () => {
   events.on('theme', (val) => { newTheme(val) })
 }
 emit()
-
-//波浪主题函数
-
-//绘制正弦波浪canvas
-const wave = ref('')
-const canvasWidth = ref(1920)
-const canvasHeight = ref(790)
-//构建一个结构体 方便后期绘制多条正弦曲线
-class Line {
-    constructor (a, b, c, d, z, start, end, gap) {
-        this.a = a
-        this.b = b
-        this.c = c
-        this.d = d  //以上四个控制正弦函数振幅周期之类的
-        this.z = z  //三维坐标
-        this.start = start //绘画开始点
-        this.end = end  //绘画结束点
-        this.gap = gap //间距
-        this.pointList = []
-        this.computePointList()
-    }
-    computePointList () {
-        this.pointList = []
-        for (let i = this.start; i <= this.end; i = i + this.gap) {
-            let x = i
-            let y = this.a * Math.sin((this.b * x + this.c) / 180 * Math.PI) + this.d   // 即y = A sin(ωx + φ) + B
-            let offset = i //偏移量用来让他运动
-            this.pointList.push({
-                x,
-                y,
-                z: this.z,
-                originX: x,
-                offset
-            })
-        }
-    }
-}
-const lineList = [
-    new Line(20, 2, 0, 0, -390, -300, 300, 10),
-    new Line(20, 2, 0, 0, -360, -300, 300, 10),
-    new Line(20, 2, 0, 0, -330, -300, 300, 10),
-    new Line(20, 2, 0, 0, -300, -300, 300, 10),
-    new Line(20, 2, 0, 0, -270, -300, 300, 10),
-    new Line(20, 2, 0, 0, -240, -300, 300, 10),
-    new Line(20, 2, 0, 0, -210, -300, 300, 10),
-    new Line(20, 2, 0, 0, -180, -300, 300, 10),
-    new Line(20, 2, 0, 0, -150, -300, 300, 10),
-    new Line(20, 2, 0, 0, -120, -300, 300, 10),
-    new Line(20, 2, 0, 0, -90, -300, 300, 10),
-    new Line(20, 2, 0, 0, -60, -300, 300, 10),
-    new Line(20, 2, 0, 0, -30, -300, 300, 10),
-    new Line(20, 2, 0, 0, 0, -300, 300, 10),
-    new Line(20, 2, 0, 0, 30, -300, 300, 10),
-    new Line(20, 2, 0, 0, 60, -300, 300, 10),
-    new Line(20, 2, 0, 0, 90, -300, 300, 10),
-    new Line(20, 2, 0, 0, 120, -300, 300, 10),
-    new Line(20, 2, 0, 0, 150, -300, 300, 10),
-    new Line(20, 2, 0, 0, 180, -300, 300, 10),
-    new Line(20, 2, 0, 0, 210, -300, 300, 10),
-    new Line(20, 2, 0, 0, 240, -300, 300, 10),
-    new Line(20, 2, 0, 0, 270, -300, 300, 10),
-    new Line(20, 2, 0, 0, 300, -300, 300, 10),
-    
-]//整个类的列表出来
-
-const draw = (visual) => { //这是个绘制正弦点的函数
-    const context = wave.value.getContext("2d");
-    context.clearRect(0, 0, canvasWidth.value, canvasHeight.value) //清空像素
-    lineList.forEach(line => {
-        line.pointList.forEach(item => {
-            const pointSize = 1.5 * visual.z / (visual.z - item.z) //整个近大远小
-            context.beginPath()
-            if (DataClass.time.theme == 2) {
-              context.fillStyle = "#ffffff"
-            } else if (DataClass.time.theme == 3) {
-              context.fillStyle = "#000000"
-            }
-            context.arc(item.canvasX  + canvasWidth.value / 2, item.canvasY  + canvasHeight.value / 2, pointSize, 0, 2 * Math.PI) //arc(x, y, radius, startAngle, endAngle, counterclockwise);
-            context.closePath()
-            context.fill()
-        })
-    })
-}
-const updatePointList = (rotationAngleSpeed, visual) => { //这是个更新点的位置而使正弦函数移动的函数
-    lineList.forEach(line => {
-        line.pointList.forEach(item => {
-            let x = item.x
-            let z = item.z
-            item.x = x * Math.cos(rotationAngleSpeed / 180 * Math.PI) - z * Math.sin(rotationAngleSpeed / 180 * Math.PI) 
-            item.z = z * Math.cos(rotationAngleSpeed / 180 * Math.PI) + x * Math.sin(rotationAngleSpeed / 180 * Math.PI) 
-            item.y = line.a * Math.sin((line.b * item.originX + line.c + item.offset) / 180 * Math.PI) + line.d //绕y轴旋转所以y比较特别
-            item.canvasX = (item.x - visual.x) * visual.z / (visual.z - z)
-            item.canvasY = (item.y - visual.y) * visual.z / (visual.z - z)
-            })
-    })
-}
-
-const animationFrame = (visual) => { //正弦函数动画
-    window.requestAnimationFrame(() => {
-        lineList.forEach((line,index) => {
-            line.pointList.forEach(item => {
-            line.c = item.offset + index * 30 //index控制偏移量更美观
-            item.offset = item.offset + 1
-            })
-            updatePointList(.003,visual)
-        })
-        draw(visual)
-        animationFrame(visual)
-    })
-
-}
-
-//监听canvas标签创建、因为JS比标签创建更快，所以需要监听。
-watch(wave, (newValue, oldValue) => {
-    const visual = { //观察点设置
-        x: 70,
-        y: -70,
-        z: 500
-    }
-    draw(visual);
-    animationFrame(visual)
-})
-
 
 </script>
 
@@ -416,10 +235,10 @@ watch(wave, (newValue, oldValue) => {
             <ul>
               <li>
                 <div class="flex justify-center" >
-                  <img class="w-[50px] h-[50px] rounded-full" :src="avatar||'../../src/assets/Profile.jpg'" alt="头像">
+                  <img class="w-[50px] h-[50px] rounded-full" :src="avatar||'/src/assets/Profile.jpg'" alt="头像">
                 </div>
                 <div class="signin" @click="signState.sign = 1">{{ UserID||"登录/注册" }}</div>
-                <div style="cursor: auto;">已注册{{ signuptime }}天</div>
+                <div style="cursor: auto;">已注册{{ signuptime||Time(signDay) }}天</div>
               </li>
               <li @click="routerlink('List')">⏱️任务清单</li>
               <li @click="routerlink('DayList')">🧾每日任务</li>
@@ -428,7 +247,7 @@ watch(wave, (newValue, oldValue) => {
               <li @click="routerlink('DIY')">✨风格选择</li>
             </ul>
             <div class="absolute bottom-[5px] left-[10px] text-[--theme-sidebar-text-color] cursor-pointer">
-              <a href="https://beian.miit.gov.cn/" target="_blank" class="text-[--theme-sidebar-text-color]">桂ICP备2024039870号</a>
+              <a href="https://beian.miit.gov.cn/" target="_blank" class="text-[--theme-sidebar-text-color] whitespace-nowrap">桂ICP备2024039870号</a>
             </div>
             <div class="absolute bottom-[5px] left-[200px] text-[--theme-sidebar-text-color] cursor-pointer">
               <!-- 版本号 -->

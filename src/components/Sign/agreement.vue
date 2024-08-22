@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 const updateTime = ref('2024-08-19')
 const email = ref('1975771886@qq.com')
-const phone = ref('18077374523')
+const address = ref('https://github.com/TaskManagerOL/Tasklist')
 
 </script>
 
@@ -277,6 +277,7 @@ const phone = ref('18077374523')
             <br>
             <p><b>电子邮件：{{ email }}</b></p>
             <p><b>电 话：{{ phone }}</b></p>
+            <p><b>仓库地址：{{ address }}</b></p>
             <br>
             <p>一般情况下，我们将在三十天内回复。</p>
             <br>
