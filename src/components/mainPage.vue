@@ -232,13 +232,13 @@ emit()
                 <span :style="iconstyle[3]" class="iconfont">&#xe758;</span>
               </div>
             </div>
-            <ul>
+            <ul class="flex flex-col items-center">
               <li>
                 <div class="flex justify-center" >
                   <img class="w-[50px] h-[50px] rounded-full" :src="avatar||'/src/assets/Profile.jpg'" alt="头像">
                 </div>
                 <div class="signin" @click="signState.sign = 1">{{ UserID||"登录/注册" }}</div>
-                <div style="cursor: auto;">已注册{{ signuptime||Time(signDay) }}天</div>
+                <div>已注册{{ signuptime||Time(signDay) }}天</div>
               </li>
               <li @click="routerlink('List')">⏱️任务清单</li>
               <li @click="routerlink('DayList')">🧾每日任务</li>
@@ -372,8 +372,8 @@ emit()
   #setting ul li {
     list-style:none;
     font-size: 26px;
-    color: var(--theme-sidebar-text-color);
     font-weight: 900;
+    color: var(--theme-text-major-color);
     white-space: nowrap;
     user-select: none;
     margin-bottom: 20px;
@@ -381,11 +381,9 @@ emit()
     cursor: pointer;
   }
 
-  #setting ul li:active {
-    color: #686b74;
-  }
-
-
+ #setting ul li:active {
+    color: var(--theme-text-major-color-active);
+ }
 
   #setting ul :nth-child(1){
     font-size: 18px;
