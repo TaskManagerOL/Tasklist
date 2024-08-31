@@ -3,7 +3,7 @@ import { ref, watch } from 'vue';
 const wave = ref('')
 const canvasWidth = ref(1920)
 const canvasHeight = ref(790)
-import { themeStore } from '/public/stores/theme';// 主题控制
+import { themeStore } from '../../stores/theme';// 主题控制
 const themeState = themeStore()
 let dotcolor = themeState.themeChoose
 watch(() => themeState.themeChoose, () => {

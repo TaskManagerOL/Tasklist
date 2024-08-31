@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'; 
-import { events } from '../../../../EventBus/EventBus';
+import { events } from '../../../EventBus/EventBus';
 import { useRoute, useRouter } from 'vue-router'
 
 const $route = useRoute();

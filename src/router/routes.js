@@ -7,62 +7,62 @@ const routes = [
     {
         path: '/',
         name: 'HOME',
-        component: () => import('../components/mainPage.vue'),
+        component: () => import('../views/mainPage.vue'),
         redirect: "/todolist",
         children: [
             {
                 path: '/todolist',
                 name: 'List',
-                component: () => import('../components/List/Todolist/KillTodo.vue'),
+                component: () => import('../views/list/KillTodo.vue'),
             },
             {
                 path: '/daytodo',
                 name: 'DayList',
-                component: () => import('../components/List/DayTodo/DayTodo.vue'),
+                component: () => import('../views/day/DayTodo.vue'),
             },
             {
                 path: '/taskcalendar',
                 name: 'TaskCalendar',
-                component: () => import('../components/List/TaskCalendar/TaskCalendar.vue'),
+                component: () => import('../views/calendar/TaskCalendar.vue'),
             },
             {
                 path: '/mainlist',
                 name: 'MainList',
-                component: () => import('../components/List/MainList/MainList.vue'),
+                component: () => import('../views/other/MainList.vue'),
             },
             {
                 path: '/diy',
                 name: 'DIY',
-                component: () => import('../components/List/DIY/DIY.vue'),
+                component: () => import('../views/diy/DIY.vue'),
             },
             {
                 path: '/getmore',
                 name: 'GetMore',
-                component: () => import('../components/List/GetMore/GetMore.vue'),
+                component: () => import('../components/doc/GetMore.vue')
+            },
+            {
+                path: '/sign',
+                name: 'Sign',
+                component: () => import('../views/login/SignIn.vue'),
+                children: [
+                    {
+                        path: '/sign/agreement',
+                        name: 'agreement',
+                        component: () => import('../components/doc/agreement.vue'),
+                    },
+                    // {
+                    //     path: '/signin/foundpassword',
+                    //     name: 'foundPsw',
+                    //     component: () => import('../components/Sign/forgotPsw.vue'),
+                    // },
+                ]
             }
         ]
     },
     {
-        path: '/signin/agreement',
-        name: 'agreement',
-        component: () => import('../components/Sign/agreement.vue'),
-    },
-    {
-        path: '/signin/qqcode',
-        name: 'QQCode',
-        component: () => import('../components/Sign/code_qq.vue'),
-    },{
-        path: '/signin/wechatcode',
-        name: 'WechatCode',
-        component: () => import('../components/Sign/code_wechat.vue'),
-    },{
-        path: '/signin/foundpassword',
-        name: 'foundPsw',
-        component: () => import('../components/Sign/forgotPsw.vue'),
-    }, {
         path: '/404',
         name: '404',
-        component: () => import('../components/Special/404.vue'),
+        component: () => import('../views/404.vue'),
     }
 ]
 export default routes

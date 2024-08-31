@@ -1,6 +1,5 @@
 <script setup>
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'; 
-import { events } from '../../../../EventBus/EventBus';
 //本地暂存一下 后面造出后端了再说
 //一个数据词条用于存储任务和任务分类——来自用户的数据库
 let DataClass = JSON.parse(localStorage.getItem("mainData"));

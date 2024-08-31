@@ -2,16 +2,15 @@
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'; 
 import { useRoute, useRouter } from 'vue-router'
 
-import clock from './Special/clock.vue'
-import loading from './Special/loading.vue'
-import signin from './Sign/SignIn.vue'
+import clock from '../components/tool/clock.vue'
+import loading from '../components/tool/loading.vue'
 
 import { events } from '../../EventBus/EventBus';
-import { signStore } from '/public/stores/sign';// 注册路由
+import { signStore } from '../stores/sign';// 注册路由
 const signState = signStore()
-import updateData from '../assets/version';// 版本号
-import { wave, canvasHeight, canvasWidth } from '../assets/dotcanvas';// 波浪canvas
-import egg from './F12EasterEgg';// 彩蛋
+import updateData from '../assets/utils/version';// 版本号
+import { wave, canvasHeight, canvasWidth } from '../assets/utils/dotcanvas';// 波浪canvas
+import egg from '../assets/utils/F12EasterEgg';// 彩蛋
 egg()
 
 const $router = useRouter()
@@ -208,14 +207,13 @@ emit()
 
 <template>
   <div>
-    <signin v-if="signState.sign==1"></signin>
     <div class="main" ref="main">
         <div v-if="canvasShow==2||canvasShow==3">
           <canvas class="absolute left-[0] z-[0]" ref="wave" :width="canvasWidth" :height="canvasHeight"></canvas>
         </div>
         <div id="setting">
           <div @mouseover="Over" :style="Overstyle" id="settingico">
-            <img src="../assets/settings.png">
+            <img src="../assets/image/settings.png">
           </div>
           <div @mouseover="Over" @mouseleave="Leave" id="settingsidebar" :style="sidebarstyle">
             <div class="flex w-2/3 h-[5rem] mt-[1rem] ml-[.5rem] items-center justify-center">
@@ -235,9 +233,9 @@ emit()
             <ul class="flex flex-col items-center">
               <li>
                 <div class="flex justify-center" >
-                  <img class="w-[50px] h-[50px] rounded-full" :src="avatar||'/src/assets/Profile.jpg'" alt="头像">
+                  <img class="w-[50px] h-[50px] rounded-full" :src="avatar||'/src/assets/image//Profile.jpg'" alt="头像">
                 </div>
-                <div class="signin" @click="signState.sign = 1">{{ UserID||"登录/注册" }}</div>
+                <div class="signin" @click="routerlink('Sign')">{{ UserID||"登录/注册" }}</div>
                 <div>已注册{{ signuptime||Time(signDay) }}天</div>
               </li>
               <li @click="routerlink('List')">⏱️任务清单</li>
@@ -251,7 +249,7 @@ emit()
             </div>
             <div class="absolute bottom-[5px] left-[200px] text-[--theme-sidebar-text-color] cursor-pointer">
               <!-- 版本号 -->
-              <p @click="test()">{{ updateData[0].version }}</p>
+              <p @click="routerlink('GetMore')">{{ updateData[0].version }}</p>
             </div>
           </div>
           <clock v-if="iconstyle[1].isP%2" class="clock"></clock>

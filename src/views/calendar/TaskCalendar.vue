@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue'; 
-import { events } from '../../../../EventBus/EventBus';
+import { events } from '../../../EventBus/EventBus';
 import { useRoute, useRouter } from 'vue-router'
 
 const $route = useRoute();
@@ -724,13 +724,13 @@ const checkEndTime = (val) => {
 }
 
 /* 日历前一个月修改 */
-::v-deep .el-calendar-table__row .prev .el-calendar-day  {
+:deep(.el-calendar-table__row .prev .el-calendar-day)  {
     color: #4b4b4b!important;
 
 }
 
 /* 日历后一个月修改 */
-::v-deep .el-calendar-table__row .next .el-calendar-day  {
+:deep(.el-calendar-table__row .next .el-calendar-day)  {
     color: #4b4b4b!important;
 
 }
@@ -765,22 +765,22 @@ const checkEndTime = (val) => {
 }
 
 /* 星期颜色 */
-::v-deep .el-calendar-table thead th {
+:deep(.el-calendar-table thead th) {
     padding-top: 15px;
     padding-bottom: 15px;
     color: var(--theme-roloc);
 }
 
 /* 按钮颜色 */
-:deep button {
+:deep(button) {
     background-color: var(--theme-text-major-color-input);
 }
 
-:deep button:hover {
+:deep(button:hover) {
     background-color: #4b4b4b;
 }
 
-:deep .el-calendar-day {
+:deep(.el-calendar-day) {
     height: 120px;
 }
 

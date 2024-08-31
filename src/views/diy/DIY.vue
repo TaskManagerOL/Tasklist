@@ -1,8 +1,8 @@
 <script setup>
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch   } from 'vue'; 
-import { events } from '../../../../EventBus/EventBus';
+import { events } from '../../../EventBus/EventBus';
 
-import { themeStore } from '/public/stores/theme';// 主题控制
+import { themeStore } from '../../stores/theme';// 主题控制
 const themeState = themeStore()
 
 let DataClass = JSON.parse(localStorage.getItem("mainData"));
