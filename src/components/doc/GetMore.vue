@@ -1,6 +1,6 @@
 <script setup>
 import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from 'vue';
-import updateData from '../../../assets/utils/version'
+import updateData from '../../assets/utils/version'
 
 let DataClass = JSON.parse(localStorage.getItem("mainData"));
 const inputID = ref(DataClass.time.studyID)
