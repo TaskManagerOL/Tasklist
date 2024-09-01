@@ -179,63 +179,63 @@ const move = (x,y) => {
 }
 
 #div1 {
-    background-image: url(../../../public/game400.png);
+    background-image: url(/game400.png);
     background-position: 0 0;
     border: 1px solid;
     cursor: pointer;
 }
 
 #div2 {
-    background-image: url(../../../public/game400.png);
+    background-image: url(/game400.png);
     background-position: -140px 0;
     border: 1px solid;
     cursor: pointer;
 }
 
 #div3 {
-    background-image: url(../../../public/game400.png);
+    background-image: url(/game400.png);
     background-position: -280px 0;
     border: 1px solid;
     cursor: pointer;
 }
 
 #div4 {
-    background-image: url(../../../public/game400.png);
+    background-image: url(/game400.png);
     background-position: 0 -140px;
     border: 1px solid;
     cursor: pointer;
 }
 
 #div5 {
-    background-image: url(../../../public/game400.png);
+    background-image: url(/game400.png);
     background-position: -140px -140px;
     border: 1px solid;
     cursor: pointer;
 }
 
 #div6 {
-    background-image: url(../../../public/game400.png);
+    background-image: url(/game400.png);
     background-position: -280px -140px;
     border: 1px solid;
     cursor: pointer;
 }
 
 #div7 {
-    background-image: url(../../../public/game400.png);
+    background-image: url(/game400.png);
     background-position: 0 -280px;
     border: 1px solid;
     cursor: pointer;
 }
 
 #div8 {
-    background-image: url(../../../public/game400.png);
+    background-image: url(/game400.png);
     background-position: -140px -280px;
     border: 1px solid;
     cursor: pointer;
 }
 
 #div9 {
-    background-image: url(../../../public/game400.png);
+    background-image: url(/game400.png);
     background-position: -280px -280px;
     border: 1px solid;
     cursor: pointer;

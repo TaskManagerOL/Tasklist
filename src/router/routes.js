@@ -1,8 +1,7 @@
 const routes = [
     {
         path: '/:pathMatch(.*)',
-        //访问主页的时候 重定向到index页面
-        redirect: '/404',
+        redirect: '/404'
     },
     {
         path: '/',
@@ -11,45 +10,41 @@ const routes = [
         redirect: "/todolist",
         children: [
             {
-                path: '/todolist',
+                path: 'todolist',
                 name: 'List',
                 component: () => import('../views/list/KillTodo.vue'),
             },
             {
-                path: '/daytodo',
+                path: 'daytodo',
                 name: 'DayList',
                 component: () => import('../views/day/DayTodo.vue'),
             },
             {
-                path: '/taskcalendar',
+                path: 'taskcalendar',
                 name: 'TaskCalendar',
                 component: () => import('../views/calendar/TaskCalendar.vue'),
             },
             {
-                path: '/mainlist',
+                path: 'mainlist',
                 name: 'MainList',
                 component: () => import('../views/other/MainList.vue'),
             },
             {
-                path: '/diy',
+                path: 'diy',
                 name: 'DIY',
                 component: () => import('../views/diy/DIY.vue'),
             },
             {
-                path: '/getmore',
+                path: 'getmore',
                 name: 'GetMore',
                 component: () => import('../components/doc/GetMore.vue')
             },
             {
-                path: '/sign',
+                path: 'sign',
                 name: 'Sign',
                 component: () => import('../views/login/SignIn.vue'),
                 children: [
-                    {
-                        path: '/sign/agreement',
-                        name: 'agreement',
-                        component: () => import('../components/doc/agreement.vue'),
-                    },
+                    
                     // {
                     //     path: '/signin/foundpassword',
                     //     name: 'foundPsw',
@@ -58,6 +53,11 @@ const routes = [
                 ]
             }
         ]
+    },
+    {
+        path: '/agreement',
+        name: 'agreement',
+        component: () => import('../components/doc/agreement.vue'),
     },
     {
         path: '/404',

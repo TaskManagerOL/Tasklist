@@ -276,7 +276,6 @@ const address = ref('https://github.com/TaskManagerOL/Tasklist')
             <p>如果您对本隐私政策有任何疑问、意见或建议，通过以下方式与我们联系：</p>
             <br>
             <p><b>电子邮件：{{ email }}</b></p>
-            <p><b>电 话：{{ phone }}</b></p>
             <p><b>仓库地址：{{ address }}</b></p>
             <br>
             <p>一般情况下，我们将在三十天内回复。</p>

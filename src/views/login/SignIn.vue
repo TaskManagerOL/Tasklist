@@ -280,7 +280,7 @@ const enterKey = () => {
                             <p>登录或完成注册前请阅读</p>
                             <!-- <div class="px-1 cursor-pointer text-[#70d6f5]">用户协议</div>
                             <p>和</p> -->
-                            <div class="px-1 cursor-pointer text-[#70d6f5]" @click="routerlink('agreement')">隐私政策</div>
+                            <a class="px-1 cursor-pointer text-[#70d6f5]" @click="routerlink('agreement')">隐私政策</a>
                         </div>
                     </div>
                 </div>
@@ -422,27 +422,6 @@ const enterKey = () => {
     width: 100px;
     background-color:transparent;
     outline:none;
-}
-
-::v-deep .el-input__inner{
-    color: #2d4051!important;
-    height: 45px;
-}
-
-::v-deep .el-select {
-  --el-select-input-focus-border-color: none !important;
-}
-::v-deep .el-input__wrapper {
-  box-shadow: none !important;
-}
-::v-deep  .el-select .el-input.is-focus .el-input__wrapper {
-  box-shadow: none !important;
-}
-::v-deep  .el-select .el-input__wrapper.is-focus {
-  box-shadow: none !important;
-}
-::v-deep  .el-select:hover:not(.el-select--disabled) .el-input__wrapper {
-  box-shadow: none !important;
 }
 
 body {

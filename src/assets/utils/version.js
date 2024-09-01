@@ -46,6 +46,36 @@ const updateData = [{
     bug: [],
     optimize: [],
     update: ["登录逻辑完善部分"]
+}, {
+    version: "1.1.3",
+    date: "2024.08.20",
+    bug: [],
+    optimize: [],
+    update: ["vercel重部署"]
+}, {
+    version: "1.1.4",
+    date: "2024.08.22",
+    bug: [],
+    optimize: ["重构更换部分MITT为Pinia"],
+    update: []
+}, {
+    version: "1.1.5",
+    date: "2024.08.25",
+    bug: [],
+    optimize: ["重构submain部分"],
+    update: []
+}, {
+    version: "1.1.6",
+    date: "2024.08.31",
+    bug: [],
+    optimize: ["路由重构"],
+    update: []
+}, {
+    version: "1.1.7",
+    date: "2024.09.01",
+    bug: [],
+    optimize: ["路由重构"],
+    update: []
 }]
 updateData.reverse();
 export default updateData
