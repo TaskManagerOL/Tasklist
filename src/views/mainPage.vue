@@ -10,8 +10,12 @@ import { signStore } from '../stores/sign';// 注册路由
 const signState = signStore()
 import updateData from '../assets/utils/version';// 版本号
 import { wave, canvasHeight, canvasWidth } from '../assets/utils/dotcanvas';// 波浪canvas
+
 import egg from '../assets/utils/F12EasterEgg';// 彩蛋
 egg()
+
+import url from '../assets/utils/url.json'
+const endURL = url.endURL
 
 const $router = useRouter()
 const routerlink = (val) => {
@@ -36,29 +40,30 @@ const signuptime = ref(Time(signDay.value))
 
 const avatar = ref('')
 const UserID = ref()
-watch(() => signState.sign, () => {
+watch(() => signState.isLog, () => {
   UserID.value = signState.data.account
   signuptime.value = Time(signState.data.day)
   avatar.value = signState.data.avatar
+  console.log(signuptime.value);
 })
 
 //以下用于记录按钮变化 可以不存入loctstroge和数据库
 const sidebarstyle = ref("") 
 const main = ref()
-const iconstyle = reactive([{ color: "#969ba7", isP:0 }, { color: "#969ba7", isP: 0 }, { color: "#969ba7", isP: 0 }, { color: "#969ba7", isP: 0 }])
+const iconstyle = reactive([{ icon: "../src/assets/icon/pin.svg", isP:0 }, { icon: "../src/assets/icon/clock.svg", isP: 0 }, { icon: "../src/assets/icon/sign.svg", isP: 0 }, { icon: "../src/assets/icon/f11.svg", isP: 0 }])
 const iconPoint = (val) => {
   switch (val) {
     case "top":
-      iconstyle[0].color = ++iconstyle[0].isP % 2 ? "#1296db" : "#969ba7";
+      iconstyle[0].icon = ++iconstyle[0].isP % 2 ? "../src/assets/icon/Spin.svg" : "../src/assets/icon/pin.svg";
       sidebarstyle.value = iconstyle[0].isP % 2 ? { width: "250px", opacity: 1, visibility: "visible" } : "";
       break;
     case "clock":
-      iconstyle[1].color = ++iconstyle[1].isP % 2 ? "#1296db" : "#969ba7";
+      iconstyle[1].icon = ++iconstyle[1].isP % 2 ? "../src/assets/icon/Sclock.svg" : "../src/assets/icon/clock.svg";
       break;
     case "signkexie":
-      iconstyle[2].color = "#1296db";
+      iconstyle[2].icon = "../src/assets/icon/Ssign.svg";
       setTimeout(() => {
-        iconstyle[2].color = "#969ba7";
+        iconstyle[2].icon = "../src/assets/icon/sign.svg";
       }, 100);
       fetch("/api/record/online/" + DataClass.time.studyID, {
         method: "GET",
@@ -103,7 +108,7 @@ const iconPoint = (val) => {
           })
       break;
     case "f11":
-      iconstyle[3].color = ++iconstyle[3].isP % 2 ? "#1296db" : "#969ba7";
+      iconstyle[3].icon = ++iconstyle[3].isP % 2 ? "../src/assets/icon/Sf11.svg" : "../src/assets/icon/f11.svg";
       if (iconstyle[3].isP % 2)
         main.value.requestFullscreen()
       else
@@ -203,6 +208,26 @@ const emit = () => {
 }
 emit()
 
+// token认证
+const auth = JSON.parse(localStorage.getItem("auth"))
+if (auth) {
+  fetch(endURL + "/token", {
+  method: "POST",
+  body: JSON.stringify({
+    'id':auth.id,
+    'email': auth.email,
+    'token': auth.token,
+    'time': auth.timeset
+  })
+  }).then(res => res.json()).then(res => {
+    if (res.code == 0) {
+      console.log(res);
+      signState.data = res.info
+      signState.isLog = 1
+    }
+  })
+}
+
 </script>
 
 <template>
@@ -213,30 +238,30 @@ emit()
         </div>
         <div id="setting">
           <div @mouseover="Over" :style="Overstyle" id="settingico">
-            <img src="../assets/image/settings.png">
+            <img src="../assets/icon/setting.svg">
           </div>
           <div @mouseover="Over" @mouseleave="Leave" id="settingsidebar" :style="sidebarstyle">
-            <div class="flex w-2/3 h-[5rem] mt-[1rem] ml-[.5rem] items-center justify-center">
+            <div class="flex w-2/3 pt-[.2rem] mt-[2.5rem] ml-[.5rem] items-center justify-center border-[#61dde4] border-[3px] rounded-full bg-[#327270]">
               <div @click="iconPoint('top')" class="px-[.2rem]">
-                <span :style="iconstyle[0]" class="iconfont ">&#xe876;</span>
+                <img class="w-[35px] h-[35px]" :src="iconstyle[0].icon">
               </div>
               <div @click="iconPoint('clock')" class="px-[.2rem]">
-                <span :style="iconstyle[1]" class="iconfont">&#xe630;</span>
+                <img class="w-[35px] h-[35px]" :src="iconstyle[1].icon">
               </div>
               <div @click="iconPoint('signkexie')" class="px-[.2rem]" title="一键签到签退:科协人员可以进入右下角版号页面输入学号">
-                <span :style="iconstyle[2]" class="iconfont">&#xe65d;</span>
+                <img class="w-[35px] h-[35px]" :src="iconstyle[2].icon">
               </div>
               <div @click="iconPoint('f11')" class="px-[.2rem]">
-                <span :style="iconstyle[3]" class="iconfont">&#xe758;</span>
+                <img class="w-[35px] h-[35px]" :src="iconstyle[3].icon"> 
               </div>
             </div>
-            <ul class="flex flex-col items-center">
+            <ul class="flex flex-col items-center mt-[15px]">
               <li>
                 <div class="flex justify-center" >
-                  <img class="w-[50px] h-[50px] rounded-full" :src="avatar||'/src/assets/image//Profile.jpg'" alt="头像">
+                  <img class="w-[80px] h-[80px] rounded-xl" :src="avatar||'/src/assets/image/Profile.jpg'" alt="头像">
                 </div>
                 <div class="signin" @click="routerlink('Sign')">{{ UserID||"登录/注册" }}</div>
-                <div>已注册{{ signuptime||Time(signDay) }}天</div>
+                <div>已注册{{ signuptime }}天</div>
               </li>
               <li @click="routerlink('List')">⏱️任务清单</li>
               <li @click="routerlink('DayList')">🧾每日任务</li>

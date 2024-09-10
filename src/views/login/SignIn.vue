@@ -5,6 +5,9 @@ import { useRoute, useRouter } from 'vue-router'
 import { signStore } from '../../stores/sign'
 const signState = signStore()
 
+import url from '../../assets/utils/url.json'
+const endURL = url.endURL
+
 const $route = useRoute();
 const $router = useRouter()
 const routerlink = (val) => {
@@ -46,13 +49,11 @@ const RegIsp = () => {
     land.value?landword.value = "登录":landword.value = "注册"
 }
 
-const endURL = "http://127.0.0.1:8000"
-
 const codetext = ref("获取验证码")
 const landword = ref('登录')
 
 const countcode = () => {
-    let num = 10
+    let num = 60
     let timer = setInterval(() => {
         codetext.value = num + "s后重试"
         if (num <= 0) codetext.value = "获取验证码", clearInterval(timer)
@@ -94,14 +95,21 @@ const LogIn = (time) => {
         }).then(res => res.json()).then(res => {
             if (res.code == 0) {
                 signState.data = res.info
-                sessionStorage.setItem('LogState',1)
+                localStorage.setItem('auth', JSON.stringify({
+                    "id": res.auth.id,
+                    "email": res.auth.email,
+                    "token": res.auth.token,
+                    "timeset": res.auth.timeset
+                }))
                 signState.isLog = 1
                 landword.value = "登录成功🥰"
                 if (time) {
                     signState.sign = 0
+                    routerlink('HOME')
                 } else {
                     setTimeout(() => {
                         signState.sign = 0
+                        routerlink('HOME')
                     }, 1000);
                 }
             }

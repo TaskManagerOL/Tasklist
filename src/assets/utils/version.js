@@ -39,43 +39,25 @@ const updateData = [{
     date: "2024.08.19",
     bug: [],
     optimize: [],
-    update: ["注册登录页面视差滚动制作","隐私政策"]
+    update: ["注册登录页面视差滚动制作","隐私政策","登录逻辑完善部分"]
 }, {
     version: "1.1.2",
     date: "2024.08.20",
     bug: [],
     optimize: [],
-    update: ["登录逻辑完善部分"]
-}, {
-    version: "1.1.3",
-    date: "2024.08.20",
-    bug: [],
-    optimize: [],
     update: ["vercel重部署"]
 }, {
-    version: "1.1.4",
-    date: "2024.08.22",
-    bug: [],
-    optimize: ["重构更换部分MITT为Pinia"],
-    update: []
-}, {
-    version: "1.1.5",
-    date: "2024.08.25",
-    bug: [],
-    optimize: ["重构submain部分"],
-    update: []
-}, {
-    version: "1.1.6",
-    date: "2024.08.31",
-    bug: [],
-    optimize: ["路由重构"],
-    update: []
-}, {
-    version: "1.1.7",
+    version: "1.1.3",
     date: "2024.09.01",
     bug: [],
-    optimize: ["路由重构"],
+    optimize: ["路由重构","重构submain部分","重构更换部分MITT为Pinia"],
     update: []
+},{
+    version: "1.1.4",
+    date: "2024.09.10",
+    bug: [],
+    optimize: [],
+    update: ["submain处icon更新","token认证"]
 }]
 updateData.reverse();
 export default updateData

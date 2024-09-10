@@ -10,24 +10,29 @@ const routes = [
         redirect: "/todolist",
         children: [
             {
+                path: 'user',
+                name: 'User',
+                component: () => import('../views/user/userInfo.vue'),
+            },
+            {
                 path: 'todolist',
                 name: 'List',
-                component: () => import('../views/list/KillTodo.vue'),
+                component: () => import('../views/list/killTodo.vue'),
             },
             {
                 path: 'daytodo',
                 name: 'DayList',
-                component: () => import('../views/day/DayTodo.vue'),
+                component: () => import('../views/day/dayTodo.vue'),
             },
             {
                 path: 'taskcalendar',
                 name: 'TaskCalendar',
-                component: () => import('../views/calendar/TaskCalendar.vue'),
+                component: () => import('../views/calendar/taskCalendar.vue'),
             },
             {
                 path: 'mainlist',
                 name: 'MainList',
-                component: () => import('../views/other/MainList.vue'),
+                component: () => import('../views/other/mainList.vue'),
             },
             {
                 path: 'diy',
@@ -37,14 +42,13 @@ const routes = [
             {
                 path: 'getmore',
                 name: 'GetMore',
-                component: () => import('../components/doc/GetMore.vue')
+                component: () => import('../components/doc/getMore.vue')
             },
             {
                 path: 'sign',
                 name: 'Sign',
-                component: () => import('../views/login/SignIn.vue'),
+                component: () => import('../views/login/signIn.vue'),
                 children: [
-                    
                     // {
                     //     path: '/signin/foundpassword',
                     //     name: 'foundPsw',
