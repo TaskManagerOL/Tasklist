@@ -50,30 +50,34 @@ const RegIsp = () => {
 }
 
 const codetext = ref("获取验证码")
+const codeIsp = ref(1)
 const landword = ref('登录')
 
 const countcode = () => {
     let num = 60
     let timer = setInterval(() => {
         codetext.value = num + "s后重试"
-        if (num <= 0) codetext.value = "获取验证码", clearInterval(timer)
+        codeIsp.value = 0
+        if (num <= 0) codetext.value = "获取验证码", clearInterval(timer),codeIsp.value = 1
         num--
     }, 1000);
 }
 
 const sendEmail = () => {
-    if (!(!patternForTel.test(tel.value) && telpoint.value == 1)) {
-        countcode()
-        fetch(endURL + "/sendemail", {
-            method: "POST",
-            body: JSON.stringify({
-                'email': tel.value,
+    if (codeIsp.value) {
+        if (!(!patternForTel.test(tel.value) && telpoint.value == 1)) {
+            countcode()
+            fetch(endURL + "/sendemail", {
+                method: "POST",
+                body: JSON.stringify({
+                    'email': tel.value,
 
+                })
+            }).then(res => res.json()).then(res => {
+            }, error => {
+                console.log('错误', error.message)
             })
-        }).then(res => res.json()).then(res => {
-        }, error => {
-            console.log('错误', error.message)
-        })
+        }
     }
 }
 
@@ -88,11 +92,13 @@ const LogIn = (time) => {
     if (patternForID.test(userID.value) && patternForPsw.test(password.value)) {
         fetch(endURL + "/login", {
             method: "POST",
+            credentials: "include",  // 允许发送和接收 Cookie
             body: JSON.stringify({
                 'email': userID.value,
                 'password': password.value
                 })
         }).then(res => res.json()).then(res => {
+            console.log(res)
             if (res.code == 0) {
                 signState.data = res.info
                 localStorage.setItem('auth', JSON.stringify({

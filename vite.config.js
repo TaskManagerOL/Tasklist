@@ -7,15 +7,15 @@ export default defineConfig({
   server: {
     host: "localhost",
     proxy: {
-    '/api': {
-        target: 'https://at.kexie.space/api',
-        changeOrigin: true,
-        ws:true,
-        pathRewrite: {
-          '^/api':''
-        },
-        rewrite: (path) => path.replace(/^\/api/, '')
-        }
+    // '/api': {
+    //     target: 'https://at.kexie.space/api',
+    //     changeOrigin: true,
+    //     ws:true,
+    //     pathRewrite: {
+    //       '^/api':''
+    //     },
+    //     rewrite: (path) => path.replace(/^\/api/, '')
+    //     }
       }
     }  
 })

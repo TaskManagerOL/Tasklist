@@ -44,7 +44,6 @@ watch(() => signState.isLog, () => {
   UserID.value = signState.data.account
   signuptime.value = Time(signState.data.day)
   avatar.value = signState.data.avatar
-  console.log(signuptime.value);
 })
 
 //以下用于记录按钮变化 可以不存入loctstroge和数据库
@@ -213,15 +212,14 @@ const auth = JSON.parse(localStorage.getItem("auth"))
 if (auth) {
   fetch(endURL + "/token", {
   method: "POST",
+  credentials: 'include',
   body: JSON.stringify({
     'id':auth.id,
     'email': auth.email,
-    'token': auth.token,
-    'time': auth.timeset
+    'token': auth.token
   })
   }).then(res => res.json()).then(res => {
     if (res.code == 0) {
-      console.log(res);
       signState.data = res.info
       signState.isLog = 1
     }
@@ -241,7 +239,7 @@ if (auth) {
             <img src="../assets/icon/setting.svg">
           </div>
           <div @mouseover="Over" @mouseleave="Leave" id="settingsidebar" :style="sidebarstyle">
-            <div class="flex w-2/3 pt-[.2rem] mt-[2.5rem] ml-[.5rem] items-center justify-center border-[#61dde4] border-[3px] rounded-full bg-[#327270]">
+            <div class="flex w-2/3 pt-[.2rem] mt-[2rem] ml-[.5rem] items-center justify-center border-[#61dde4] border-[3px] rounded-full bg-[#327270]">
               <div @click="iconPoint('top')" class="px-[.2rem]">
                 <img class="w-[35px] h-[35px]" :src="iconstyle[0].icon">
               </div>
@@ -255,7 +253,7 @@ if (auth) {
                 <img class="w-[35px] h-[35px]" :src="iconstyle[3].icon"> 
               </div>
             </div>
-            <ul class="flex flex-col items-center mt-[15px]">
+            <ul class="flex flex-col items-center ">
               <li>
                 <div class="flex justify-center" >
                   <img class="w-[80px] h-[80px] rounded-xl" :src="avatar||'/src/assets/image/Profile.jpg'" alt="头像">
