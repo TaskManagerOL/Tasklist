@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     host: "localhost",
-    proxy: {
+    // proxy: {
     // '/api': {
     //     target: 'https://at.kexie.space/api',
     //     changeOrigin: true,
@@ -16,6 +16,6 @@ export default defineConfig({
     //     },
     //     rewrite: (path) => path.replace(/^\/api/, '')
     //     }
-      }
+      // }
     }  
 })
