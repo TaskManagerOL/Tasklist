@@ -7,7 +7,7 @@ const routes = [
         path: '/',
         name: 'HOME',
         component: () => import('../views/mainPage.vue'),
-        redirect: "/todolist",
+        redirect: "todolist",
         children: [
             {
                 path: 'user',
