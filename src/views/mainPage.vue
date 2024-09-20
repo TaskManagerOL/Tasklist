@@ -17,7 +17,14 @@ egg()
 import url from '../assets/utils/url.json'
 const endURL = url.endURL
 
-import pin from "../assets/icon/pin.svg"
+import pinIcon from "../assets/icon/pin.svg"
+import SpinIcon from "../assets/icon/Spin.svg"
+import clockIcon from "../assets/icon/clock.svg"
+import SclockIcon from "../assets/icon/Sclock.svg"
+import signIcon from "../assets/icon/sign.svg"
+import SsignIcon from "../assets/icon/Ssign.svg"
+import f11Icon from "../assets/icon/f11.svg"
+import Sf11Icon from "../assets/icon/Sf11.svg"
 
 const $router = useRouter()
 const routerlink = (val) => {
@@ -51,22 +58,22 @@ watch(() => signState.isLog, () => {
 //以下用于记录按钮变化 可以不存入loctstroge和数据库
 const sidebarstyle = ref("") 
 const main = ref()
-const iconstyle = reactive([{ icon: pin, isP:0 }, { icon: "../src/assets/icon/clock.svg", isP: 0 }, { icon: "../src/assets/icon/sign.svg", isP: 0 }, { icon: "../src/assets/icon/f11.svg", isP: 0 }])
+const iconstyle = reactive([{ icon: pinIcon, isP:0 }, { icon: clockIcon, isP: 0 }, { icon: signIcon, isP: 0 }, { icon: f11Icon, isP: 0 }])
 const iconPoint = (val) => {
   switch (val) {
     case "top":
-      iconstyle[0].icon = ++iconstyle[0].isP % 2 ? "../src/assets/icon/Spin.svg" : pin;
+      iconstyle[0].icon = ++iconstyle[0].isP % 2 ? SpinIcon : pinIcon;
       sidebarstyle.value = iconstyle[0].isP % 2 ? { width: "250px", opacity: 1, visibility: "visible" } : "";
       break;
     case "clock":
-      iconstyle[1].icon = ++iconstyle[1].isP % 2 ? "../src/assets/icon/Sclock.svg" : "../src/assets/icon/clock.svg";
+      iconstyle[1].icon = ++iconstyle[1].isP % 2 ? SclockIcon : clockIcon;
       break;
     case "signkexie":
-      iconstyle[2].icon = "../src/assets/icon/Ssign.svg";
+      iconstyle[2].icon = SsignIcon;
       setTimeout(() => {
-        iconstyle[2].icon = "../src/assets/icon/sign.svg";
+        iconstyle[2].icon = signIcon;
       }, 100);
-      fetch("/api/record/online/" + DataClass.time.studyID, {
+      fetch("https://at.kexie.space/api/record/online/" + DataClass.time.studyID, {
         method: "GET",
         headers: {
           'Content-Type': 'application/json'
@@ -109,7 +116,7 @@ const iconPoint = (val) => {
           })
       break;
     case "f11":
-      iconstyle[3].icon = ++iconstyle[3].isP % 2 ? "../src/assets/icon/Sf11.svg" : "../src/assets/icon/f11.svg";
+      iconstyle[3].icon = ++iconstyle[3].isP % 2 ? Sf11Icon : f11Icon;
       if (iconstyle[3].isP % 2)
         main.value.requestFullscreen()
       else
