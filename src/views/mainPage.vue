@@ -17,6 +17,8 @@ egg()
 import url from '../assets/utils/url.json'
 const endURL = url.endURL
 
+import pin from "../assets/icon/pin.svg"
+
 const $router = useRouter()
 const routerlink = (val) => {
   $router.push({name:val});
@@ -49,11 +51,11 @@ watch(() => signState.isLog, () => {
 //以下用于记录按钮变化 可以不存入loctstroge和数据库
 const sidebarstyle = ref("") 
 const main = ref()
-const iconstyle = reactive([{ icon: "../src/assets/icon/pin.svg", isP:0 }, { icon: "../src/assets/icon/clock.svg", isP: 0 }, { icon: "../src/assets/icon/sign.svg", isP: 0 }, { icon: "../src/assets/icon/f11.svg", isP: 0 }])
+const iconstyle = reactive([{ icon: pin, isP:0 }, { icon: "../src/assets/icon/clock.svg", isP: 0 }, { icon: "../src/assets/icon/sign.svg", isP: 0 }, { icon: "../src/assets/icon/f11.svg", isP: 0 }])
 const iconPoint = (val) => {
   switch (val) {
     case "top":
-      iconstyle[0].icon = ++iconstyle[0].isP % 2 ? "../src/assets/icon/Spin.svg" : "../src/assets/icon/pin.svg";
+      iconstyle[0].icon = ++iconstyle[0].isP % 2 ? "../src/assets/icon/Spin.svg" : pin;
       sidebarstyle.value = iconstyle[0].isP % 2 ? { width: "250px", opacity: 1, visibility: "visible" } : "";
       break;
     case "clock":
