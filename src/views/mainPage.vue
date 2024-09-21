@@ -25,6 +25,7 @@ import signIcon from "../assets/icon/sign.svg"
 import SsignIcon from "../assets/icon/Ssign.svg"
 import f11Icon from "../assets/icon/f11.svg"
 import Sf11Icon from "../assets/icon/Sf11.svg"
+import firstAvatar from "../assets/image/Profile.jpg"
 
 const $router = useRouter()
 const routerlink = (val) => {
@@ -41,11 +42,12 @@ setInterval(() => {
 //该变量用于记录签到时间 存入数据库
 const signDay = ref("2023-04-09")
 const Time = (val) => {
+  if(val == undefined)return undefined
   let Signintime = new Date(val).getTime();
   let NowTime = new Date().getTime();
   return Math.floor((NowTime - Signintime)/(24 * 3600 * 1000))
 }
-const signuptime = ref(Time(signDay.value))
+const signuptime = ref(undefined)
 
 const avatar = ref('')
 const UserID = ref()
@@ -53,6 +55,8 @@ watch(() => signState.isLog, () => {
   UserID.value = signState.data.account
   signuptime.value = Time(signState.data.day)
   avatar.value = signState.data.avatar
+  console.log(signuptime.value);
+  console.log(Time(signDay.value));
 })
 
 //以下用于记录按钮变化 可以不存入loctstroge和数据库
@@ -224,8 +228,7 @@ if (auth) {
   credentials: 'include',
   body: JSON.stringify({
     'id':auth.id,
-    'email': auth.email,
-    'token': auth.token
+    'email': auth.email
   })
   }).then(res => res.json()).then(res => {
     if (res.code == 0) {
@@ -265,10 +268,10 @@ if (auth) {
             <ul class="flex flex-col items-center ">
               <li>
                 <div class="flex justify-center" >
-                  <img class="w-[80px] h-[80px] rounded-xl" :src="avatar||'/src/assets/image/Profile.jpg'" alt="头像">
+                  <img class="w-[80px] h-[80px] rounded-xl" :src="avatar||firstAvatar" alt="头像">
                 </div>
-                <div class="signin" @click="routerlink('Sign')">{{ UserID||"登录/注册" }}</div>
-                <div>已注册{{ signuptime }}天</div>
+                <div class="signin" @click="UserID?routerlink('User'):routerlink('Sign')">{{ UserID||"登录/注册" }}</div>
+                <div>已注册{{signuptime === undefined? Time(signDay):signuptime }}天</div>
               </li>
               <li @click="routerlink('List')">⏱️任务清单</li>
               <li @click="routerlink('DayList')">🧾每日任务</li>
