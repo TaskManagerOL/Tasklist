@@ -55,8 +55,6 @@ watch(() => signState.isLog, () => {
   UserID.value = signState.data.account
   signuptime.value = Time(signState.data.day)
   avatar.value = signState.data.avatar
-  console.log(signuptime.value);
-  console.log(Time(signDay.value));
 })
 
 //以下用于记录按钮变化 可以不存入loctstroge和数据库
