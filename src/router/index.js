@@ -3,6 +3,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // 导入路由页面的配置
 import routes from './routes.js'
+import { ref, watch } from 'vue'; 
+
+import { signStore } from '../stores/sign';
 
 // 路由参数配置
 const router = createRouter({
@@ -15,7 +18,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     // 继续前进 next()
     // 返回 false 以取消导航
-    next()
+    const signState = signStore()
+    const auth = JSON.parse(localStorage.getItem("auth"))
+    if (to.name == 'User' && !auth) {
+        next("404"); 
+    } else {
+        next()
+    }
 })
 
 // 全局后置钩子，这里可以加入改变页面标题等操作

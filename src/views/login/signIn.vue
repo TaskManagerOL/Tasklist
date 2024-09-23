@@ -66,20 +66,26 @@ const countcode = () => {
 }
 
 const sendEmail = () => {
-    if (codeIsp.value) {
+    if (codeIsp.value&&localStorage.getItem("expiryCode")<Date.now()) {
+        localStorage.setItem("expiryCode",Date.now()+60000)
         if (!(!patternForTel.test(tel.value) && telpoint.value == 1)) {
-            countcode()
             fetch(endURL + "/sendemail", {
                 method: "POST",
                 body: JSON.stringify({
                     'email': tel.value,
-
                 })
             }).then(res => res.json()).then(res => {
+                if (res.code == 0) {
+                    countcode()
+                } else if (res.code == 1) {
+                    codetext.value = "账号已存在"
+                }
             }, error => {
                 console.log('错误', error.message)
             })
         }
+    } else {
+        codetext.value = "请稍后重试"
     }
 }
 
@@ -100,7 +106,6 @@ const LogIn = (time) => {
                 'password': password.value
                 })
         }).then(res => res.json()).then(res => {
-            console.log(res)
             if (res.code == 0) {
                 signState.data = res.info
                 localStorage.setItem('auth', JSON.stringify({

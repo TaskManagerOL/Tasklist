@@ -13,6 +13,8 @@ const routerlink = (val) => {
 import url from '../../assets/utils/url.json'
 const endURL = url.endURL
 
+import { ElMessage } from 'element-plus'
+
 const avatar = ref(signState.data.avatar)
 const oldavatar = ref(signState.data.avatar)
 const UserID = ref(signState.data.account)
@@ -58,6 +60,7 @@ const logout = () => {
   signState.data.email = ""
   signState.data.day = undefined
   signState.data.id = ""
+  message("已安全退出登录",0)
   routerlink('HOME')
 }
 
@@ -86,29 +89,56 @@ const textNum = () => {
 }
 
 const saveChange = () => {
-  console.log(newAvatar.value, avatar.value,newName.value);
-  fetch(endURL + "/info", {
-    method: "POST",
-    credentials:"include",
-    body: JSON.stringify({
-      "email": email.value,
-      "account": newName.value ? newName.value : UserID.value,
-      "avatar": newAvatar.value ? newAvatar.value : oldavatar.value
+  if (localStorage.getItem("expiry") < Date.now()) {
+    fetch(endURL + "/info", {
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({
+        "email": email.value,
+        "account": newName.value ? newName.value : UserID.value,
+        "avatar": newAvatar.value ? newAvatar.value : oldavatar.value
       })
-  }).then(res => res.json()).then(res => {
+    }).then(res => res.json()).then(res => {
+      localStorage.setItem("expiry",Date.now()+ 60000*60*2)
       if (res.code == 0) {
         signState.data.avatar = newAvatar.value
-        signState.data.account = newName.value
+        if (newName.value) {
+          signState.data.account = newName.value
+          UserID.value = signState.data.account
+        }
+        signState.info = !signState.info
       }
-  }).then(tokenNow())///这里造成不能及时更新 看看怎么解决
+    }).then(message("保存成功",0))
+  } else {
+    message("再等一会才可修改哦",1)
+  }
+}
+
+const message = (val,num) => {
+  ElMessage({
+    message: val,
+    type: num?'error':'success',
+    duration: 1000
+  })
 }
 
 const clearData = () => {
-  alert("您确定要清除数据？")
+  localStorage.removeItem('mainData')
+  message("数据已清除",0)
 }
 
 const signout = () => {
-  alert("您确定要注销账户？")
+  fetch(endURL + "/kill", {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify({
+      email:email.value
+    })
+  })
+  signState.isLog = 0
+  signState.data = ""
+  message("账号已注销",0)
+  routerlink("HOME")
 }
 </script>
 
@@ -118,7 +148,7 @@ const signout = () => {
           <div class="w-[750px] h-[180px] mt-[4rem] flex items-center">
             <div class="relative w-[180px] h-[180px] mx-[3rem] p-[3px] border-[1px] border-[#929292] overflow-hidden">
               <input type="file" accept="image/*" class="absolute w-[180px] h-[180px] left-0 opacity-0 select-none" @change="changeAvatar" title="">
-              <img class="select-none w-[100%] h-[100%] object-cover" draggable="false" :src="avatar" alt="头像">
+              <img class="select-none w-[100%] h-[100%] object-cover bg-[#929292]" draggable="false" :src="avatar">
             </div>
             <div class="h-[170px] w-[1px] bg-[#929292]"></div>
             <div class="w-[350px] h-[180px] flex flex-col pt-[1rem] pl-[3rem] items-start">

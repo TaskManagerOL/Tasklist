@@ -58,6 +58,12 @@ const updateData = [{
     bug: [],
     optimize: [],
     update: ["submain处icon更新","token认证"]
+},{
+    version: "1.1.5",
+    date: "2024.09.23",
+    bug: [],
+    optimize: [],
+    update: ["info创建成功，现在用户可以自由切换昵称和头像啦！"]
 }]
 updateData.reverse();
 export default updateData

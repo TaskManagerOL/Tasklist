@@ -10,5 +10,6 @@ export const signStore = defineStore('signStore', () => {
     avatar: ""
   })
   const isLog = ref(0)
-  return { sign,data,isLog }
+  const info = ref(0)
+  return { sign,data,isLog,info }
 })

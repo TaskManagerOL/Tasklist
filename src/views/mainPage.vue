@@ -51,10 +51,15 @@ const signuptime = ref(undefined)
 
 const avatar = ref('')
 const UserID = ref()
-watch(() => signState.isLog, () => {
+watch(() =>  signState.isLog, () => {
   UserID.value = signState.data.account
   signuptime.value = Time(signState.data.day)
   avatar.value = signState.data.avatar
+})
+
+watch(() => signState.info, () => {
+  signState.data.account?UserID.value = signState.data.account:UserID.value = UserID.value
+  signState.data.avatar ?avatar.value = signState.data.avatar:avatar.value = avatar.value
 })
 
 //以下用于记录按钮变化 可以不存入loctstroge和数据库
@@ -266,7 +271,7 @@ if (auth) {
             <ul class="flex flex-col items-center ">
               <li>
                 <div class="flex justify-center" >
-                  <img class="w-[80px] h-[80px] rounded-xl" :src="avatar||firstAvatar" alt="头像">
+                  <img class="w-[80px] h-[80px] rounded-xl object-cover" :src="avatar||firstAvatar" alt="头像">
                 </div>
                 <div class="signin" @click="UserID?routerlink('User'):routerlink('Sign')">{{ UserID||"登录/注册" }}</div>
                 <div>已注册{{signuptime === undefined? Time(signDay):signuptime }}天</div>
