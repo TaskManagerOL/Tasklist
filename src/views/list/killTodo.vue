@@ -33,7 +33,6 @@ const changeData = () => {  //更新数据函数
     }, 0)
     DataClass.tableData[aimIndex] = aimData
     localStorage.setItem("mainData", JSON.stringify(DataClass));
-    console.log("datas have updated");
 }
 
 const classIcon = ref("");

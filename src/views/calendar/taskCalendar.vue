@@ -70,7 +70,6 @@ const changeData = () => {
         reload.value = 1
     }, 0)
     localStorage.setItem("mainData", JSON.stringify(DataClass));
-    console.log("datas have updated");
 }
 
 //写个展示日历任务的函数,遍历本月

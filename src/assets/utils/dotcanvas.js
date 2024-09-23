@@ -68,18 +68,22 @@ const lineList = [
 ]//整个类的列表出来
 
 const draw = (visual) => { //这是个绘制正弦点的函数
-    const context = wave.value.getContext("2d");
-    context.clearRect(0, 0, canvasWidth.value, canvasHeight.value) //清空像素
-    lineList.forEach(line => {
-        line.pointList.forEach(item => {
-            const pointSize = 1.5 * visual.z / (visual.z - item.z) //整个近大远小
-            context.beginPath()
-            dotcolor ==2?context.fillStyle = "#ffffff":context.fillStyle = "#000000"
-            context.arc(item.canvasX  + canvasWidth.value / 2, item.canvasY  + canvasHeight.value / 2, pointSize, 0, 2 * Math.PI) //arc(x, y, radius, startAngle, endAngle, counterclockwise);
-            context.closePath()
-            context.fill()
+    try {
+        const context = wave.value.getContext("2d");
+        context.clearRect(0, 0, canvasWidth.value, canvasHeight.value) //清空像素
+        lineList.forEach(line => {
+            line.pointList.forEach(item => {
+                const pointSize = 1.5 * visual.z / (visual.z - item.z) //整个近大远小
+                context.beginPath()
+                dotcolor ==2?context.fillStyle = "#ffffff":context.fillStyle = "#000000"
+                context.arc(item.canvasX  + canvasWidth.value / 2, item.canvasY  + canvasHeight.value / 2, pointSize, 0, 2 * Math.PI) //arc(x, y, radius, startAngle, endAngle, counterclockwise);
+                context.closePath()
+                context.fill()
+            })
         })
-    })
+    } catch {
+        
+    }
 }
 const updatePointList = (rotationAngleSpeed, visual) => { //这是个更新点的位置而使正弦函数移动的函数
     lineList.forEach(line => {

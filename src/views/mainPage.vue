@@ -33,7 +33,28 @@ const routerlink = (val) => {
 }
 
 const canvasShow = ref(0)
+const updateMainData = () => {
+  if (signState) {
+    // 更新maindata
+  }
+}
+
 let DataClass = JSON.parse(localStorage.getItem("mainData"));
+
+const test = () => {
+    fetch(endURL + "/maindata", {
+        method: "POST",
+        body: JSON.stringify({
+          email: signState.data.email,
+          data: JSON.stringify(DataClass),
+          control:"search"
+        })
+    }).then(res => res.json()).then(res => {
+      console.log(res)
+      console.log(JSON.parse(res["data"][0]))
+    })
+}
+
 setInterval(() => {
   DataClass = JSON.parse(localStorage.getItem("mainData"));
   canvasShow.value = DataClass.time.theme;
@@ -246,6 +267,7 @@ if (auth) {
 <template>
   <div>
     <div class="main" ref="main">
+        <div @click="test">test</div>
         <div v-if="canvasShow==2||canvasShow==3">
           <canvas class="absolute left-[0] z-[0]" ref="wave" :width="canvasWidth" :height="canvasHeight"></canvas>
         </div>

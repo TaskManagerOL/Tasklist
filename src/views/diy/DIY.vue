@@ -6,11 +6,6 @@ import { themeStore } from '../../stores/theme';// 主题控制
 const themeState = themeStore()
 
 let DataClass = JSON.parse(localStorage.getItem("mainData"));
-let logState = sessionStorage.getItem("LogState");
-
-console.log(logState);
-
-
 
 //写个变量存储选的主题
 const themeChoose = ref(0)
@@ -19,7 +14,6 @@ const changeData = () => {
     reloadDate()
     localStorage.setItem("mainData", JSON.stringify(DataClass));
     emit()
-    console.log("datas have updated");
 }
 
 const reload = ref(1)

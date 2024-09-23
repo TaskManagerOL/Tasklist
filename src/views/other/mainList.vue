@@ -7,12 +7,20 @@ import { reactive, ref, onMounted, onUnmounted, nextTick, computed, watch } from
 let DataClass = JSON.parse(localStorage.getItem("mainData"));
 
 //设置一个aimData常驻，用于展示用户所选取的数据词条
-let aimData = DataClass.MainList
+
+let aimData = ""
+DataClass.MainList ? aimData = DataClass.MainList : []
+console.log();
+
 onMounted(() => {
     activeMakeList()
-    if (!aimData[aimData.length - 1].name) {
-        aimData.splice(aimData.length - 1, 1);
-        subEdit.splice(aimData.length - 1, 1)
+    console.log(aimData);
+
+    if (aimData.length != 0) {
+        if (!aimData[aimData.length - 1].name) {
+            aimData.splice(aimData.length - 1, 1);
+            subEdit.splice(aimData.length - 1, 1)
+        }
     }
     closeSubList()
 })
@@ -30,8 +38,7 @@ const changeData = () => {
         reload.value = 1
     }, 0)
     DataClass.MainList = aimData
-    localStorage.setItem("mainData", JSON.stringify(DataClass)); 
-    console.log("datas have updated");
+    localStorage.setItem("mainData", JSON.stringify(DataClass));
 }
 
 //控制编辑模块

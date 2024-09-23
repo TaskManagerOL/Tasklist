@@ -24,7 +24,6 @@ const changeData = () => {
     }, 0)
     DataClass.DataTask[aimIndex] = aimData
     localStorage.setItem("mainData", JSON.stringify(DataClass));
-    console.log("datas have updated");
 }
 
 //主要有一个相互保存的函数，需要做到从DayTask中能存到tableData中，在任务清单中修改也能改到DayTask

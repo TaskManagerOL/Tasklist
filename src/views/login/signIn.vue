@@ -75,13 +75,11 @@ const sendEmail = () => {
                     'email': tel.value,
                 })
             }).then(res => res.json()).then(res => {
-                if (res.code == 0) {
+                if (res.code != 0) {
                     countcode()
-                } else if (res.code == 1) {
+                } else if (res.code == 3) {
                     codetext.value = "账号已存在"
                 }
-            }, error => {
-                console.log('错误', error.message)
             })
         }
     } else {
@@ -127,8 +125,6 @@ const LogIn = (time) => {
             else if (res.code == 1) {
                 landword.value = res.state + "🤯"
             }
-        }, error => {
-            console.log('错误', error.message)
         })
     }
 }
@@ -165,8 +161,6 @@ const SignIn = () => {
             // DataClass.time.primeID = response.data.account.id
             // localStorage.setItem("mainData", JSON.stringify(DataClass));
             // routerlink("HOME")
-        }, error => {
-            console.log('错误', error.message)
         })
     }
 }
