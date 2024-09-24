@@ -15,6 +15,8 @@ const endURL = url.endURL
 
 import { ElMessage } from 'element-plus'
 
+import defaultData from '../../assets/utils/default.json'
+
 const avatar = ref(signState.data.avatar)
 const oldavatar = ref(signState.data.avatar)
 const UserID = ref(signState.data.account)
@@ -48,7 +50,22 @@ const tokenNow = () => {
 }
 tokenNow()
 
+let DataClass = JSON.parse(localStorage.getItem("mainData"));
+const updataMainData = () => {
+    fetch(endURL + "/maindata", {
+        method: "POST",
+        body: JSON.stringify({
+          email: signState.data.email,
+          data: JSON.stringify(DataClass),
+          control:"update"
+        })
+    }).then(res => res.json()).then(res => {
+    })
+}
+
 const logout = () => {
+  updataMainData()
+  localStorage.setItem("mainData",JSON.stringify(defaultData))
   localStorage.removeItem('auth')
   fetch(endURL + "/logout",{
     method: "POST",

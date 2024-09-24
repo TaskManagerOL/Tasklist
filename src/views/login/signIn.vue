@@ -94,6 +94,20 @@ function formatDate(date) {
   return year+'-'+month+'-'+day ;
 }
 
+const searchMainData = () => {
+  fetch(endURL + "/maindata", {
+        method: "POST",
+        body: JSON.stringify({
+          email: signState.data.email,
+          data: JSON.stringify(DataClass),
+          control:"search"
+        })
+  }).then(res => res.json()).then(res => {
+    DataClass = res["data"][0]
+    localStorage.setItem('mainData', DataClass)
+  })
+}
+
 const LogIn = (time) => {
     if (patternForID.test(userID.value) && patternForPsw.test(password.value)) {
         fetch(endURL + "/login", {
@@ -112,6 +126,7 @@ const LogIn = (time) => {
                 }))
                 signState.isLog = 1
                 landword.value = "登录成功🥰"
+                searchMainData()
                 if (time) {
                     signState.sign = 0
                     routerlink('HOME')

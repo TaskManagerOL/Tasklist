@@ -32,28 +32,31 @@ const routerlink = (val) => {
   $router.push({name:val});
 }
 
-const canvasShow = ref(0)
-const updateMainData = () => {
-  if (signState) {
-    // 更新maindata
-  }
-}
-
 let DataClass = JSON.parse(localStorage.getItem("mainData"));
 
-const test = () => {
+const canvasShow = ref(0)
+
+const updataMainData = () => {
     fetch(endURL + "/maindata", {
         method: "POST",
         body: JSON.stringify({
           email: signState.data.email,
           data: JSON.stringify(DataClass),
-          control:"search"
+          control:"update"
         })
     }).then(res => res.json()).then(res => {
-      console.log(res)
-      console.log(JSON.parse(res["data"][0]))
     })
 }
+
+const dataTip = ref('opacity: 0;')
+setInterval(() => {
+  updataMainData()
+  dataTip.value = 'opacity: 1;'
+  setTimeout(() => {
+    dataTip.value = 'opacity: 0;'
+  },2000)
+}, 60000*5)
+
 
 setInterval(() => {
   DataClass = JSON.parse(localStorage.getItem("mainData"));
@@ -267,7 +270,6 @@ if (auth) {
 <template>
   <div>
     <div class="main" ref="main">
-        <div @click="test">test</div>
         <div v-if="canvasShow==2||canvasShow==3">
           <canvas class="absolute left-[0] z-[0]" ref="wave" :width="canvasWidth" :height="canvasHeight"></canvas>
         </div>
@@ -304,6 +306,7 @@ if (auth) {
               <li @click="routerlink('MainList')">📜杂项安排</li>
               <li @click="routerlink('DIY')">✨风格选择</li>
             </ul>
+            <div :style="dataTip" class="updata absolute bottom-[50px] right-[40px] flex justify-center items-center w-[150px] h-[30px] border-[#61dde4] border-[3px] rounded-full bg-[#327270] text-[#61dde4] font-bold" >数据已更新</div>
             <div class="absolute bottom-[5px] left-[10px] text-[--theme-sidebar-text-color] cursor-pointer">
               <a href="https://beian.miit.gov.cn/" target="_blank" class="text-[--theme-sidebar-text-color] whitespace-nowrap">桂ICP备2024039870号</a>
             </div>
@@ -361,6 +364,7 @@ if (auth) {
   .clock {
     position: absolute;
     z-index: 50;
+    
   }
 
   .main {
@@ -461,6 +465,11 @@ if (auth) {
     background-clip: text;
     -webkit-background-clip:text;
     -webkit-text-fill-color: transparent;
+  }
+
+  .updata {
+    text-shadow: 0 0 5px #61dde4;
+    transition: all 1s ease-in-out;
   }
 
   </style>
