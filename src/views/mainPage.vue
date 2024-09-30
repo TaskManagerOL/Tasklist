@@ -54,14 +54,10 @@ setInterval(() => {
   dataTip.value = 'opacity: 1;'
   setTimeout(() => {
     dataTip.value = 'opacity: 0;'
-  },2000)
-}, 60000*5)
-
-
-setInterval(() => {
+  }, 2000)
   DataClass = JSON.parse(localStorage.getItem("mainData"));
-  canvasShow.value = DataClass.time.theme;
-})
+  DataClass.time.theme ? canvasShow.value = DataClass.time.theme : '';
+}, 60000 * 5)
 
 //该变量用于记录签到时间 存入数据库
 const signDay = ref("2023-04-09")

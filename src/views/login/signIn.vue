@@ -9,6 +9,7 @@ import url from '../../assets/utils/url.json'
 const endURL = url.endURL
 
 import avatarRandom from '../../assets/utils/avatar'
+import defaultJson from "../../assets/utils/default"
 
 const $route = useRoute();
 const $router = useRouter()
@@ -73,6 +74,7 @@ const sendEmail = () => {
                 method: "POST",
                 body: JSON.stringify({
                     'email': tel.value,
+                    
                 })
             }).then(res => res.json()).then(res => {
                 if (res.code != 0) {
@@ -112,6 +114,9 @@ const LogIn = (time) => {
     if (patternForID.test(userID.value) && patternForPsw.test(password.value)) {
         fetch(endURL + "/login", {
             method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
             credentials: "include",  // 允许发送和接收 Cookie
             body: JSON.stringify({
                 'email': userID.value,
@@ -148,6 +153,9 @@ const SignIn = () => {
     if (patternForTel.test(tel.value) && patternForNum.test(Num.value) && patternForPsw.test(sign_password.value)) {
         fetch(endURL + "/signin", {
             method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
             credentials: 'include',
             body: JSON.stringify({
                 'email': tel.value,
@@ -155,7 +163,8 @@ const SignIn = () => {
                 'code': Num.value,
                 'account': "tasklister",
                 'day': formatDate(new Date()),
-                'avatar': avatarRandom
+                'avatar': avatarRandom,
+                'data':JSON.stringify(defaultJson)
             })
         }).then(res => res.json()).then(res => {
             if (res.code == 0) {

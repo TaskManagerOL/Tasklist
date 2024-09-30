@@ -513,7 +513,7 @@ const updateTime = () => {
                                 <div class="flex w-full items-center">
                                     <div class="w-[32px] h-[32px] ml-[-6px] flex justify-center items-center cursor-pointer" @click="item.remove=(item.remove+1)%2,killMainList(index,item.remove),changeData()">
                                         <div class="outline outline-2 w-[16px] h-[16px] z-10 select-none rounded-3xl flex items-center justify-center" >
-                                            <i class="iconfont" :style="mainList[index].pointerStyle">&#xe69e;</i>
+                                            <i class="iconfont" :style="mainList[index].pointerStyle?mainList[index].pointerStyle:''">&#xe69e;</i>
                                         </div>
                                     </div>
                                     <div class="w-full bg-[--theme-background-major-color] flex items-center h-[35px] focus:outline-0 pl-[10px] rounded cursor-pointer" @click="mainListChange(index),changeData()">
