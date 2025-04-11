@@ -306,9 +306,9 @@ if (auth) {
             <div class="absolute bottom-[5px] left-[10px] text-[--theme-sidebar-text-color] cursor-pointer">
               <a href="https://beian.miit.gov.cn/" target="_blank" class="text-[--theme-sidebar-text-color] whitespace-nowrap">桂ICP备2024039870号</a>
             </div>
-            <div class="absolute bottom-[5px] left-[200px] text-[--theme-sidebar-text-color] cursor-pointer">
+            <div class="absolute bottom-[5px] left-[200px] text-[--theme-sidebar-text-color]">
               <!-- 版本号 -->
-              <p @click="routerlink('GetMore')">{{ updateData[0].version }}</p>
+              <p>{{ updateData[0].version }}</p>
             </div>
           </div>
           <clock v-if="iconstyle[1].isP%2" class="clock"></clock>

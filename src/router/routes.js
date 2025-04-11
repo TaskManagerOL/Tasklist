@@ -40,11 +40,6 @@ const routes = [
                 component: () => import('../views/diy/DIY.vue'),
             },
             {
-                path: 'getmore',
-                name: 'GetMore',
-                component: () => import('../components/doc/getMore.vue')
-            },
-            {
                 path: 'sign',
                 name: 'Sign',
                 component: () => import('../views/login/signIn.vue'),
